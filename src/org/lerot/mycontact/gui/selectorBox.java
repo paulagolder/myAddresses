@@ -107,7 +107,7 @@ public class selectorBox extends jswVerticalPanel
 	public void actionPerformed(ActionEvent evt)
 	{
 		String cmd = evt.getActionCommand().toUpperCase();
-		System.out.println(" here we are sb " + cmd);
+		//System.out.println(" here we are sb " + cmd);
 		String action="";
 
 			HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);

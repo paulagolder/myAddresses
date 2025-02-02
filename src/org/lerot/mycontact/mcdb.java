@@ -73,6 +73,7 @@ public class mcdb extends JFrame implements ActionListener
     public static mcDataTypes alldatatypes;
     public static mcAttributeTypes myattributetypes;
     static String version = "V 31.0";
+    private final Dimension defdimension;
     public mcDataSource currentcon;
     public browsePanel abrowsepanel;
     public editPanel aneditpanel;
@@ -111,7 +112,7 @@ public class mcdb extends JFrame implements ActionListener
     public mcdb(int w, int h)
     {
         super("MyContacts " + version);
-
+        defdimension = new Dimension(w, h);
         userdir = System.getProperty("user.dir");
         userhome = System.getProperty("user.home");
         user = System.getProperty("user.name");
@@ -164,9 +165,9 @@ public class mcdb extends JFrame implements ActionListener
         bigpanel = new jswVerticalPanel("bigpanel", true, true);
         bigpanel.setBorder(BorderFactory.createLineBorder(Color.blue));
         bigpanel.setName("bigpanel");
-        bigpanel.setPreferredSize(new Dimension(800, 500));
-        bigpanel.setSize(new Dimension(800, 500));
-        bigpanel.setMinimumSize(new Dimension(800, 500));
+        bigpanel.setPreferredSize(defdimension);
+        bigpanel.setSize(defdimension);
+        bigpanel.setMinimumSize(defdimension);
         getContentPane().add(bigpanel);
         jswHorizontalPanel optionBar = new jswHorizontalPanel();
         buttonset = new jswPushButtonset(this, "mode", false, false);
@@ -191,9 +192,12 @@ public class mcdb extends JFrame implements ActionListener
         selbox = new selectorBox(this, this);
         bigpanel.add("FILLW", selbox);
         mainpanel = new jswVerticalPanel("mainpanel", false, false);
+        mainpanel.setPanelname("mainpanel");
+        //mainpanel.setTrace(true);
         bigpanel.add(" FILLH FILLW", mainpanel);
         bigpanel.setBorder(jswStyle.makeLineBorder(Color.GRAY, 3));
         abrowsepanel = new browsePanel();
+        abrowsepanel.setTrace(true);
         mainpanel.add(" FILLH FILLW ", abrowsepanel);
         asearchpanel = new searchPanel("search", false, false);
         asearchpanel.makesearchPanel(selbox, this);

@@ -141,9 +141,7 @@ public class searchPanel extends jswVerticalPanel implements ActionListener
         } else
         {
             int row = 0;
-
-            for (mcContact acontact : selbox.getSearchResultList()
-                    .makeOrderedContactsVector())
+            for (mcContact acontact : selbox.getSearchResultList().makeOrderedContactsVector())
             {
                 jswLabel atid = new jswLabel(acontact.getIDstr());
                 jswLabel atTID = new jswLabel(acontact.getTID());
@@ -157,7 +155,6 @@ public class searchPanel extends jswVerticalPanel implements ActionListener
                 resulttable.addCell(removecontact, row, 3);
                 row++;
             }
-
             if (sellist.size() < 10)
             {
                 searchpanel.add(" FILLW ", resulttable);

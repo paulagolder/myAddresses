@@ -23,7 +23,7 @@ public class mctagList extends mcDataObject
 	public  void reloadTags()
 	{
 		
-		System.out.println("reloading tags ");
+		//System.out.println("reloading tags ");
 		Map<String, Integer> ustaglist = new HashMap<String, Integer>();
 		taglistcomparator comparator = new taglistcomparator(ustaglist);
 

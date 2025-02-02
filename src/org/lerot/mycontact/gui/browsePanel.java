@@ -63,6 +63,7 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 	public browsePanel()
 	{
         super("browse",false,false);
+		this.setTrace(true);
         vcarddirectory = mcdb.topgui.desktop;
 		jswStyles defaultstyles = jswStyles.getDefaultStyles();
 		tablestyles = StylesMakeAttributeTable();
@@ -312,7 +313,6 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 			if (mcAttributeTypes.getAll() == null)
 			{
 				attributepanel.addCell(new jswLabel("no attributes"), 0, 1);
-
 			}
 			int attcount = 0;
 			for (Entry<String, mcAttributeType> anentry : mcAttributeTypes.entrySet())
@@ -344,14 +344,8 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 									// System.out.println(" in bday");
 								}
 								String value = anattribute.getFormattedValue();// paul
-								// change
-								// was
-								// formatted
-								// value
 								jswLabel slabel = new jswLabel(value);
 								slabel.setBorder(jswStyle.makeLineBorder(Color.blue, 2));
-								// slabel.getLabel().setBorder(setLineBorder(Color.pink,
-								// 2));
 								slabel.getLabel().setBackground(Color.green);
 								attributepanel.addCell(slabel, " LEFT ", row,
 										1);
@@ -416,20 +410,20 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 
 	public void makeBrowsePanel()
 	{
-		jswVerticalPanel mainpanel = this;
-		mainpanel.setName("Browsepanel");
+		jswVerticalPanel browsepanel = this;
+
 		selcontact = mcdb.selbox.getSelcontact();
-		mainpanel.removeAll();
-		mainpanel.setTag("Browsepanel");
-		mainpanel.setLayout(new jswVerticalLayout());
-		// new jswHorizontalPanel();
+		browsepanel.removeAll();
+		browsepanel.setName("Browsepanel");
+		browsepanel.setTag("Browsepanel");
+		//browsepanel.setLayout(new jswVerticalLayout());
+        browsepanel.setTrace(true);
 		if (selcontact != null)
 		{
-
 			mcAttributes attributes = selcontact.getAttributes();
 			jswHorizontalPanel idbox = new jswHorizontalPanel("idbox", false);
 			idbox.setPadding(10);
-			mainpanel.add(" FILLW ",idbox);
+			browsepanel.add(" FILLW ",idbox);
 			idbox.setStyleAttribute("height",50);
 			idbox.applyStyle();
 			if (attributes != null)
@@ -448,21 +442,19 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 			jswLabel idpanel2 = new jswLabel(" ");		
 			idbox.add(idpanel2);
 			idpanel2.setText(selcontact.getName());
-			//idpanel2.doStyling();
 			idpanel2.applyStyle();
 			jswButton vcardexport = new jswButton(this, "VCard");
 			idbox.add("RIGHT", vcardexport);
 			selcontact.fillContact();
 			jswTable contactattributes = makeAttributePanel(selcontact, "B");
-			if (contactattributes != null) mainpanel.add( " WIDTH=800 ",contactattributes);
+			if (contactattributes != null) browsepanel.add( " FILLW ",contactattributes);
 			mcContacts relationlist = makeLinkToList(selcontact, "related");
 			mcContacts memberoflist = makeLinkToList(selcontact, "memberof");
 			mcContacts hasmemberslist = makeLinkToList(selcontact, "hasmember");
 			if (relationlist != null)
 			{
-				jswVerticalPanel arelationslist = makeLinkToPanel(relationlist,
-						"related", "Related to");
-				mainpanel.add(arelationslist);
+				jswVerticalPanel arelationslist = makeLinkToPanel(relationlist,	"related", "Related to");
+				browsepanel.add(" ",arelationslist);
 			}
 			if (hasmemberslist != null)
 			{
@@ -470,36 +462,33 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 				jswHorizontalPanel memberheading = new jswHorizontalPanel();
 				jswLabel label = new jswLabel("Has Members");
 				memberheading.add(" MIDDLE ", label);
-				jswButton groupemail = new jswButton(this, "MAKE GROUP EMAIL",
-						"MAKEGROUPEMAIL");
+				jswButton groupemail = new jswButton(this, "MAKE GROUP EMAIL","MAKEGROUPEMAIL");
 				memberheading.add(groupemail);
-				mainpanel.add(memberheading);
-				jswTable memberstable = makeLinkToTable(hasmemberslist,
-						"members");
+				browsepanel.add(" ",memberheading);
+				jswTable memberstable = makeLinkToTable(hasmemberslist,"members");
 				if (hasmemberslist.size() < 6)
 				{
-					mainpanel.add(" FILLW ",memberstable);
+					browsepanel.add(" FILLW ",memberstable);
 				} else
 				{
 					jswScrollPane scrollableTextArea = new jswScrollPane(memberstable, -10, -10);
 					scrollableTextArea.setName("resultscroll");
 					scrollableTextArea.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 					scrollableTextArea.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-					mainpanel.add(" FILLH ", scrollableTextArea);
+					browsepanel.add(" FILLH ", scrollableTextArea);
 					scrollableTextArea.setVisible(true);
 				}
 			}
 			if (memberoflist != null)
 			{
 				jswVerticalPanel aorglist = makeLinkToPanel(memberoflist, "memberof","Member Of");
-				mainpanel.add(" FILLW ",aorglist);
+				browsepanel.add(" FILLW ",aorglist);
 				memberoflist.printlist("mo");
 			}
-
 			jswLabel correspondancelabel = new jswLabel("Correspondance");
-			mainpanel.add(" BOTTOM ", correspondancelabel);
+			browsepanel.add(" BOTTOM ", correspondancelabel);
 			jswVerticalPanel correspondance = makeCorrespondancePanel(selcontact, "letters");
-			mainpanel.add(" FILLH FILLW  ", correspondance);
+			browsepanel.add(" FILLH FILLW  ", correspondance);
 			jswHorizontalPanel bottom = new jswHorizontalPanel("fred", false);
 			bottom.setName("bottom");
 			// bottom.setTag("trace");
@@ -512,7 +501,7 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 			correspondancereceived.setBorder(jswStyle.makeLineBorder(Color.YELLOW, 3));
 			makenote.setBorder(jswStyle.makeLineBorder(Color.RED, 3));
 			correspondancesent.setBorder(jswStyle.makeLineBorder(Color.GREEN, 3));
-			mainpanel.add(" MAXHEIGHT=100 FILLW ", bottom);
+			browsepanel.add(" MAXHEIGHT=100 FILLW ", bottom);
 		}
 
 	}
@@ -988,18 +977,16 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 		tablestyle.putAttribute("foregroundColor", "Green");
 		tablestyle.putAttribute("borderWidth", "2");
 		tablestyle.putAttribute("borderColor", "blue");
+		tablestyle.putAttribute("padding", "10");
 		
 		jswStyle rowstyle = tablestyles.makeStyle("row");
-		//col0style.putAttribute("fontStyle", Font.BOLD);
-		//col0style.setHorizontalAlign("RIGHT");
 		rowstyle.putAttribute("height", "40");
 		
 		jswStyle cellstyle = tablestyles.makeStyle("cell");
-		//col0style.putAttribute("fontStyle", Font.BOLD);
-		//col0style.setHorizontalAlign("RIGHT");
 		cellstyle.putAttribute("minheight", "40");
 		cellstyle.putAttribute("cellbordercolor", "red");
 		cellstyle.putAttribute("cellborderwidth", "1");
+		cellstyle.putAttribute("padding", "10");
 
 		jswStyle col0style = tablestyles.makeStyle("col_0");
 		col0style.putAttribute("fontStyle", Font.BOLD);
@@ -1009,13 +996,11 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 
 		jswStyle col1style = tablestyles.makeStyle("col_1");
 		col1style.putAttribute("fontStyle", Font.PLAIN);
-		col1style.putAttribute("minwidth", "true");
 		col1style.setHorizontalAlign("LEFT");
 
 		jswStyle col2style = tablestyles.makeStyle("col_2");
 		col2style.putAttribute("horizontalAlignment", "LEFT");
-		//col2style.putAttribute("maxwidth", "true");
-		//col2style.putAttribute("backgroundColor", "yellow");
+		col2style.putAttribute("minwidth", "true");
 
 		jswStyle col3style = tablestyles.makeStyle("col_3");
 		col3style.putAttribute("minwidth", "true");
