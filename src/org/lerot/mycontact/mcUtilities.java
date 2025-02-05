@@ -1,23 +1,12 @@
 package org.lerot.mycontact;
 
-import java.io.File;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.Vector;
-
-import org.apache.commons.lang3.StringUtils;
 
 public class mcUtilities
 {
@@ -820,4 +809,17 @@ public class mcUtilities
 	  }
 
 
+	public static String makeIDstr(String idstr)
+	{
+		String ids = ("000000" + idstr);
+		int l = ids.length();
+		return ids.substring(l - 6);
+	}
+
+	public static String makeIDstr(int id)
+	{
+		String ids = ("000000" + id);
+		int l = ids.length();
+		return ids.substring(l - 6);
+	}
 }

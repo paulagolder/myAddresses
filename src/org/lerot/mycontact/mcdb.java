@@ -1,58 +1,36 @@
 package org.lerot.mycontact;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.InvalidPropertiesFormatException;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.UIManager;
-
-import org.lerot.mywidgets.jswContainer;
-import org.lerot.mywidgets.jswHorizontalPanel;
-import org.lerot.mywidgets.jswLabel;
-import org.lerot.mywidgets.jswPanel;
-import org.lerot.mywidgets.jswPushButtonset;
-import org.lerot.mywidgets.jswStyle;
-import org.lerot.mywidgets.jswStyles;
-import org.lerot.mywidgets.jswVerticalPanel;
-import org.lerot.mycontact.gui.ToolsPanel;
-import org.lerot.mycontact.gui.browsePanel;
-import org.lerot.mycontact.gui.editPanel;
-import org.lerot.mycontact.gui.selectorBox;
-import org.lerot.mycontact.gui.widgets.jswDropDownContactBox;
-import org.lerot.mycontact.gui.searchPanel;
 import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
 import com.jgoodies.looks.plastic.PlasticLookAndFeel;
 import com.jgoodies.looks.plastic.theme.DesertBluer;
+import org.lerot.mycontact.gui.*;
+import org.lerot.mycontact.gui.widgets.jswDropDownContactBox;
+import org.lerot.mywidgets.*;
 
+import javax.swing.*;
+import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDropEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
+import java.util.InvalidPropertiesFormatException;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 public class mcdb extends JFrame implements ActionListener
 {
@@ -249,6 +227,7 @@ public class mcdb extends JFrame implements ActionListener
     {
         panelstyles = jswStyles.getDefaultStyles();
         panelstyles.name = "panel";
+
         jswStyle jswWidgetStyles = panelstyles.makeStyle("jswWidget");
         jswWidgetStyles.putAttribute("backgroundColor", "#e0dcdf");
         jswWidgetStyles.putAttribute("boxbackgroundColor", "GREEN");
@@ -434,8 +413,8 @@ public class mcdb extends JFrame implements ActionListener
             mainpanel.removeAll();
             abrowsepanel.removeAll();
             abrowsepanel.makeBrowsePanel();
-            abrowsepanel.setBorder(jswStyle.makeLineBorder(Color.green, 4));
-            abrowsepanel.applyStyle();
+           // abrowsepanel.setBorder(jswStyle.makeLineBorder(Color.green, 4));
+           // abrowsepanel.applyStyle();
             mainpanel.add(" FILLW ", abrowsepanel);
             abrowsepanel.repaint();
         } else if (mode.equals("TOOLS"))

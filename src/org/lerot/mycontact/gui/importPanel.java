@@ -1,32 +1,15 @@
 package org.lerot.mycontact.gui;
 
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Rectangle;
+import org.lerot.mycontact.gui.widgets.jswDropDownContactBox;
+import org.lerot.mycontact.*;
+import org.lerot.mywidgets.*;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Vector;
-
-import org.lerot.mywidgets.jswButton;
-import org.lerot.mywidgets.jswCheckbox;
-import org.lerot.mywidgets.jswHorizontalPanel;
-import org.lerot.mywidgets.jswImage;
-import org.lerot.mywidgets.jswLabel;
-import org.lerot.mywidgets.jswTable;
-import org.lerot.mywidgets.jswVerticalPanel;
-import org.lerot.mycontact.mcAttribute;
-import org.lerot.mycontact.mcAttributes;
-import org.lerot.mycontact.mcContact;
-import org.lerot.mycontact.mcImportAttribute;
-import org.lerot.mycontact.mcImportAttributes;
-import org.lerot.mycontact.mcImportContact;
-import org.lerot.mycontact.mcImports;
-import org.lerot.mycontact.mcMappings;
-import org.lerot.mycontact.mcUtilities;
-import org.lerot.mycontact.mcdb;
-import org.lerot.mycontact.gui.widgets.jswDropDownContactBox;
 
 public class importPanel extends jswVerticalPanel implements ActionListener
 {

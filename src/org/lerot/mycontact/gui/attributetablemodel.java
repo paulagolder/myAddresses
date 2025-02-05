@@ -1,8 +1,7 @@
 package org.lerot.mycontact.gui;
 
-import java.util.Vector;
-
 import javax.swing.table.AbstractTableModel;
+import java.util.Vector;
 
 public class attributetablemodel extends AbstractTableModel
 {

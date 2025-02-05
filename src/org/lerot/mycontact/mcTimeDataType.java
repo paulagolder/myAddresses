@@ -1,11 +1,11 @@
 package org.lerot.mycontact;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Vector;
-
-import org.apache.commons.lang3.StringEscapeUtils;
 
 public class mcTimeDataType extends mcDataType
 {

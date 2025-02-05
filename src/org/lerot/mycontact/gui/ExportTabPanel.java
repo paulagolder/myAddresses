@@ -1,9 +1,9 @@
 package org.lerot.mycontact.gui;
 
+import org.lerot.mywidgets.jswTabbedPanel;
+
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-
-import org.lerot.mywidgets.jswTabbedPanel;
 
 public class ExportTabPanel extends jswTabbedPanel implements ComponentListener
 {

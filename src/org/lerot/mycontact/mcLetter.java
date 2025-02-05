@@ -23,16 +23,15 @@ package org.lerot.mycontact;
  *
  ************************************************************************/
 
+import org.odftoolkit.odfdom.dom.element.office.OfficeTextElement;
+import org.odftoolkit.simple.TextDocument;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
-
-import org.odftoolkit.simple.TextDocument;
-//import org.odftoolkit.odfdom.TextDocument;
-import org.odftoolkit.odfdom.dom.element.office.OfficeTextElement;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * based on code by

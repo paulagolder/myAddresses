@@ -1,6 +1,11 @@
 package org.lerot.mycontact.gui;
 
-import java.awt.Dimension;
+import org.lerot.mycontact.*;
+import org.lerot.mywidgets.*;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -10,26 +15,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.Vector;
-
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
-import org.lerot.mycontact.mcImportexception;
-import org.lerot.mywidgets.jswButton;
-import org.lerot.mywidgets.jswDropDownBox;
-import org.lerot.mywidgets.jswHorizontalPanel;
-import org.lerot.mywidgets.jswLabel;
-import org.lerot.mywidgets.jswTextBox;
-import org.lerot.mywidgets.jswVerticalPanel;
-import org.lerot.mycontact.mcImportLdif;
-import org.lerot.mycontact.mcImportVcard;
-import org.lerot.mycontact.mcImportXML;
-import org.lerot.mycontact.mcImports;
-import org.lerot.mycontact.mcMappings;
-import org.lerot.mycontact.mcdb;
 
 public class importSetupPanel extends jswVerticalPanel implements
 		ActionListener

@@ -1,9 +1,7 @@
 package org.lerot.mycontact.gui;
 
 
-
 import org.lerot.mywidgets.jswTabbedPanel;
-import org.lerot.mywidgets.jswVerticalLayout;
 
 public class anImportTabPanel extends jswTabbedPanel
 {

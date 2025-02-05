@@ -1,8 +1,8 @@
 package org.lerot.mycontact;
 
-import java.util.LinkedHashMap;
-
 import org.lerot.mywidgets.jswLabel;
+
+import java.util.LinkedHashMap;
 
 public class mcImportVcard extends mcImports
 {

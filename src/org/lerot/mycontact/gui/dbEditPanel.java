@@ -1,25 +1,17 @@
 package org.lerot.mycontact.gui;
 
+import org.lerot.mycontact.mcDataSource;
+import org.lerot.mycontact.mcdb;
+import org.lerot.mywidgets.*;
+import org.lerot.mywidgets.jswTextBox;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Vector;
-
-import javax.swing.ButtonGroup;
-import javax.swing.JComponent;
-import javax.swing.JRadioButton;
-
-import org.lerot.mywidgets.*;
-import org.lerot.mywidgets.jswTextBox;
-import org.lerot.mycontact.mcDataSource;
-import org.lerot.mycontact.mcdb;
 
 public class dbEditPanel extends jswVerticalPanel implements ActionListener
 {

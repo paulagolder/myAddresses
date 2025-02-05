@@ -1,28 +1,16 @@
 package org.lerot.mycontact.gui;
 
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Map.Entry;
-
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-
-import org.lerot.mywidgets.jswButton;
-import org.lerot.mywidgets.jswCheckbox;
-import org.lerot.mywidgets.jswHorizontalPanel;
-import org.lerot.mywidgets.jswLabel;
-import org.lerot.mywidgets.jswScrollPane;
-import org.lerot.mywidgets.jswStyle;
-import org.lerot.mywidgets.jswStyles;
-import org.lerot.mywidgets.jswTable;
-import org.lerot.mywidgets.jswTextBox;
-import org.lerot.mywidgets.jswVerticalPanel;
 import org.lerot.mycontact.mcContacts;
 import org.lerot.mycontact.mcdb;
 import org.lerot.mycontact.mctagList;
+import org.lerot.mywidgets.*;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class manageTagsPanel extends jswVerticalPanel implements ActionListener
 {
@@ -40,9 +28,22 @@ public class manageTagsPanel extends jswVerticalPanel implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent evt)
 	{
-		String action = evt.getActionCommand().toUpperCase();
+		String cmd = evt.getActionCommand().toUpperCase();
+		System.out.println("tags panel action " + cmd);
+		HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);
+		String action = cmdmap.get("COMMAND").toUpperCase();
 		System.out.println("action " + action);
 		int row = 0;
+		if (action.equals("ACTION"))
+		{
+             if(cmdmap.get("HANDLERNAME").equalsIgnoreCase("JCHECKBOX"))
+			{
+				String nrow = cmdmap.get("ROW");
+				String ncol= cmdmap.get("COLUMN");
+                checkboxes[row].setSelected(true);
+			}
+
+		}
 		if (action.equals("MERGE"))
 		{
 			String mergeto = null;
@@ -229,7 +230,7 @@ public class manageTagsPanel extends jswVerticalPanel implements ActionListener
 		printbar.add(" MIDDLE ", duplicatebutton);
 		jswButton normbutton = new jswButton(this, "NORM");
 		printbar.add(" MIDDLE ", normbutton);
-		atttable = new jswTable(this,"tags", tagstablestyles);
+		atttable = new jswTable(null,"tags", tagstablestyles);
 		//jswScrollPane scrollableTextArea = new jswScrollPane(atttable, -4, -4);
 		jswScrollPane scrollableTextArea = new jswScrollPane(atttable, 10, 10);
 		scrollableTextArea.setName("resultscroll");
@@ -238,7 +239,7 @@ public class manageTagsPanel extends jswVerticalPanel implements ActionListener
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollableTextArea.setVerticalScrollBarPolicy(
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		this.add(" FILLH ", scrollableTextArea);
+		this.add(" FILLH FILLW ", scrollableTextArea);
 		atttable.setVisible(true);
 		buildTagPanel();
         atttable.repaint();
@@ -264,7 +265,7 @@ public class manageTagsPanel extends jswVerticalPanel implements ActionListener
 			jswLabel acount = new jswLabel(attcount);
 			atttable.addCell(alabel, row, col);
 			atttable.addCell(acount, row, col + 1);
-			checkboxes[cb] = new jswCheckbox(this,"");
+			checkboxes[cb] = new jswCheckbox(null,"");
 			checkboxes[cb].setTag(attkey);
 			atttable.addCell(checkboxes[cb], row, col + 2);
 			//System.out.println("adding tag:"+attkey);
@@ -273,7 +274,7 @@ public class manageTagsPanel extends jswVerticalPanel implements ActionListener
 			if (row > 10)
 			{
 				row = 0;
-				col = col + 3;
+				col = col + 4;
 			}
 		}
 		atttable.setVisible(true);
@@ -316,22 +317,30 @@ public class manageTagsPanel extends jswVerticalPanel implements ActionListener
 		col0style.setHorizontalAlign("RIGHT");
 		col0style.putAttribute("minwidth", "true");
 		col0style.putAttribute("width", 10);
-		col0style.putAttribute("foregroundColor", "green");
 
 		jswStyle col1style = tablestyles.makeStyle("col_1");
-		col1style.putAttribute("fontStyle", Font.BOLD);
-		col1style.setHorizontalAlign("LEFT");
+		col0style.putAttribute("minwidth", "true");
 		col1style.putAttribute("horizontalAlignment", "LEFT");
 
 		jswStyle col2style = tablestyles.makeStyle("col_2");
 		col2style.putAttribute("horizontalAlignment", "RIGHT");
 		col2style.putAttribute("minwidth", "true");
-		tablestyles.copyStyle("col_0", "col_3");
-		tablestyles.copyStyle("col_1", "col_4");
-		tablestyles.copyStyle("col_2", "col_5");
-		tablestyles.copyStyle("col_0", "col_6");
-		tablestyles.copyStyle("col_1", "col_7");
-		tablestyles.copyStyle("col_2", "col_8");
+
+		jswStyle col3style = tablestyles.makeStyle("col_3");
+		col3style.putAttribute("FILLW", "true");
+
+		jswStyle col4style = tablestyles.makeStyle("col_4");
+		col4style.putAttribute("fontStyle", Font.BOLD);
+		col4style.putAttribute("minwidth", "true");
+		col4style.putAttribute("width", 10);
+
+		jswStyle col5style = tablestyles.makeStyle("col_5");
+		col5style.putAttribute("horizontalAlignment", "RIGHT");
+		col5style.putAttribute("minwidth", "true");
+
+		jswStyle col6style = tablestyles.makeStyle("col_6");
+		col6style.putAttribute("horizontalAlignment", "RIGHT");
+		col6style.putAttribute("minwidth", "true");
 
 		return tablestyles;
 	}

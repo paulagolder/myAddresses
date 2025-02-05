@@ -1,29 +1,18 @@
 package org.lerot.mycontact.gui;
 
+import org.lerot.mycontact.mcContacts;
+import org.lerot.mycontact.mcDateDataType;
+import org.lerot.mycontact.mcMappings;
+import org.lerot.mycontact.mcdb;
+import org.lerot.mywidgets.*;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Map.Entry;
 import java.util.Vector;
-
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
-import org.lerot.mywidgets.jswButton;
-import org.lerot.mywidgets.jswCheckbox;
-import org.lerot.mywidgets.jswDropDownBox;
-
-import org.lerot.mywidgets.jswHorizontalPanel;
-import org.lerot.mywidgets.jswLabel;
-import org.lerot.mywidgets.jswOption;
-import org.lerot.mywidgets.jswOptionset;
-import org.lerot.mywidgets.jswTextBox;
-import org.lerot.mywidgets.jswVerticalPanel;
-import org.lerot.mycontact.mcContacts;
-import org.lerot.mycontact.mcDateDataType;
-import org.lerot.mycontact.mcMappings;
-import org.lerot.mycontact.mcdb;
 
 public class exportPanel extends jswVerticalPanel implements ActionListener
 {

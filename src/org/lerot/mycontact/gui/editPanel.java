@@ -1,8 +1,12 @@
 package org.lerot.mycontact.gui;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
+import org.lerot.mycontact.gui.widgets.jswDropDownContactBox;
+import org.lerot.mycontact.*;
+import org.lerot.mywidgets.*;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -12,28 +16,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.Map.Entry;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
-import org.lerot.mywidgets.*;
-import org.lerot.mycontact.mcAddressDataType;
-import org.lerot.mycontact.mcAttribute;
-import org.lerot.mycontact.mcAttributeType;
-import org.lerot.mycontact.mcAttributeTypes;
-import org.lerot.mycontact.mcAttributes;
-import org.lerot.mycontact.mcContact;
-import org.lerot.mycontact.mcContacts;
-import org.lerot.mycontact.mcGetContactException;
-import org.lerot.mycontact.mcImportContact;
-import org.lerot.mycontact.mcMappings;
-//import org.lerot.mycontact.mcMember;
-import org.lerot.mycontact.mcUtilities;
-import org.lerot.mycontact.mcdb;
-import org.lerot.mycontact.mcfield;
-import org.lerot.mycontact.vcardContactReader;
-import org.lerot.mycontact.gui.widgets.jswDropDownContactBox;
+import static org.lerot.mycontact.mcdb.panelstyles;
 
 public class editPanel extends jswVerticalPanel implements ActionListener
 {
@@ -63,14 +46,68 @@ public class editPanel extends jswVerticalPanel implements ActionListener
     private jswDropDownBox linkselect;
     private jswDropDownBox groupselect;
 
+    private final Color background = new Color(220, 200, 200);
+
     public editPanel()
     {
         super("edit", false, false);
         vcarddirectory = mcdb.topgui.desktop;
         tagtablestyles = makeTagTableStyles();
-        tablestyles = makeTableStyles();
+        //  tablestyles = makeTableStyles();
+        tablestyles = searchTableStyles();
         arraytablestyles = makeArrayTableStyles();
         linktablestyles = makeLinkTableStyles();
+    }
+
+    public static jswStyles searchTableStyles()
+    {
+        jswStyles tablestyles = new jswStyles();
+        tablestyles.name = "defaulttable";
+        jswStyle tablestyle = tablestyles.makeStyle("table");
+        //tablestyle.putAttribute("backgroundColor", "#c0d6f2");
+        tablestyle.putAttribute("borderwidth", "1");
+        tablestyle.putAttribute("borderColor", "green");
+        jswStyle cellstyle = tablestyles.makeStyle("cell");
+        //	cellstyle.putAttribute("backgroundColor", "#c0d6f2");
+        cellstyle.putAttribute("fontSize", "12");
+        cellstyle.putAttribute("fontStyle", Font.PLAIN);
+        cellstyle.putAttribute("borderColor", "black");
+        cellstyle.putAttribute("borderWidth", 1);
+        cellstyle.putAttribute("padding", 4);
+
+        jswStyle rowstyle = tablestyles.makeStyle("row");
+        //row0style.putAttribute("fontStyle", Font.BOLD + Font.ITALIC);
+        rowstyle.putAttribute("minheight", 50);
+
+        jswStyle cell00style = tablestyles.makeStyle("cell");
+        //cell00style.putAttribute("foregroundColor", "transparent");
+        cell00style.putAttribute("minheight", 50);
+        jswStyle colstyle = tablestyles.makeStyle("col");
+        colstyle.setHorizontalAlign("RIGHT");
+        jswStyle col0style = tablestyles.makeStyle("col_0");
+        col0style.putAttribute("fontStyle", Font.BOLD);
+        col0style.putAttribute("fontSize", "16");
+        col0style.putAttribute("backgroundColor", "PINK");
+        col0style.putAttribute("minwidth", true);
+        col0style.setHorizontalAlign("LEFT");
+
+        jswStyle col1style = tablestyles.makeStyle("col_1");
+        col1style.putAttribute("width", 100);
+        //col1style.putAttribute("fontSize", "16");
+        //col1style.putAttribute("backgroundColor", "BLUE");
+
+        jswStyle col2style = tablestyles.makeStyle("col_2");
+        //col1style.putAttribute("fontStyle", Font.BOLD);
+        //col2style.putAttribute("fontSize", "16");
+        //col2style.putAttribute("minwidth", true);
+        col2style.putAttribute("backgroundColor", "GREEN");
+        jswStyle col3style = tablestyles.makeStyle("col_3");
+        //col1style.putAttribute("fontStyle", Font.BOLD);
+        //col2style.putAttribute("fontSize", "16");
+        col3style.putAttribute("minwidth", true);
+        col3style.putAttribute("backgroundColor", "GREEN");
+
+        return tablestyles;
     }
 
     @Override
@@ -159,11 +196,10 @@ public class editPanel extends jswVerticalPanel implements ActionListener
             {
                 mcContact linkcontact = parentselect.getSelectedValue();
                 String linktype = linkselect.getSelectedValue();
-                System.out.println("adding " + selcontact + " to " + linktype
-                        + " " + linkcontact);
-                mcAttribute newatt = selcontact.createAttribute(linktype,
-                        linkcontact.getIDstr());
-                newatt.getAttributevalue().setValue(linkcontact.getTID(), "now");
+                System.out.println("adding " + selcontact + " as " + linktype
+                        + " : " + linkcontact);
+                mcAttribute newatt = selcontact.createAttribute(linktype,linkcontact.getIDstr());
+                newatt.getAttributevalue().setValue(linkcontact.getIDstr(), "now");
                 newatt.dbupsertAttribute();
             } else if (action.startsWith("REFLECT:"))
             {
@@ -174,20 +210,17 @@ public class editPanel extends jswVerticalPanel implements ActionListener
                 System.out.println(" link contact " + linkcontact + " ++ " + data[0] + " + " + data[1] + " + " + data[2]);
                 String root = data[1];
                 String qualifier = "";
-                if (data.length > 2)
-                {
-                    qualifier = data[2];
-                } else
-                {
+
                     qualifier = selcontact.getIDstr();
-                }
-                if (root.equals("hasmember"))
-                    root = "memberof";
-                else if (root.equals("memberof")) root = "hasmember";
-                System.out.println("adding  link + to " + data[2] + " " + root + " " + data[0]);
-                mcAttribute newatt = selcontact.createAttribute(root, data[0]);
-                newatt.getAttributevalue().setValue(linkcontact.getTID(), "now");
-                System.out.println("new attribut:" + newatt);
+
+                if (root.equalsIgnoreCase("hasmember"))
+                    root = "MemberOf";
+                else if (root.equalsIgnoreCase("memberof")) root = "HasMember";
+                String newid = mcUtilities.makeIDstr(data[0]);
+                System.out.println("adding  link + to " + data[2] + " " + root + " " + newid);
+                mcAttribute newatt = selcontact.createAttribute(root, newid);
+                newatt.getAttributevalue().setValue(newid ,"now");
+                System.out.println("new attribute:" + newatt);
                 newatt.dbupsertAttribute();
             } else if (action.startsWith("ADDGROUP"))
             {
@@ -471,48 +504,41 @@ public class editPanel extends jswVerticalPanel implements ActionListener
         jswTable memberpanel = new jswTable(this, selector, linktablestyles);
         if (selcontact != null)
         {
-            mcAttributes getlinked = (new mcAttributes())
-                    .FindByAttributeValue(selector, selcontact.getTID());
+            mcAttributes cattributes = selcontact.getAttributes();
+             cattributes.printList( "ca ");
+            mcAttributes getlinked = (new mcAttributes()).FindByAttributeValue(selector, selcontact.getIDstr());
+            getlinked.printList( "lk ");
             int row = 0;
             for (Entry<String, mcAttribute> anentry : getlinked.entrySet())
             {
                 mcAttribute anattribute = anentry.getValue();
-                int cid = anattribute.getCid();
-                String qualifier = anattribute.getQualifier();
-                mcContact linkcontact = mcdb.selbox.FindbyID(cid);
-                String value = null;
-                if (linkcontact != null)
-                    value = linkcontact.getTID().trim();
-                else
-                    System.out.println(" Not found contact " + cid);
-
-                if (!selcontact.hasAttributeByValue(value))
+                String aroot = anattribute.getRoot();
+                if (aroot.equalsIgnoreCase("MemberOf")) aroot = "HasMember";
+                else if (aroot.equalsIgnoreCase("HasMember")) aroot = "MemberOf";
+                String avalue = mcUtilities.makeIDstr(anattribute.getCid());
+                String aqualifier = mcUtilities.makeIDstr(anattribute.getQualifier());
+                if (!selcontact.hasAttributeByValue(aroot, avalue, avalue))
                 {
-                    mcContact linkedcontact = mcdb.selbox.FindbyTID(value);
+                    int cid = anattribute.getCid();
+                    mcContact linkedcontact = mcdb.selbox.FindbyID(cid);
                     if (linkedcontact != null)
                     {
-                        jswLabel alabel = new jswLabel(value);
+                        jswLabel alabel = new jswLabel(linkedcontact.getName());
                         memberpanel.addCell(alabel, row, 0);
-                        jswLabel aqual = new jswLabel(
-                                anattribute.getQualifier());
+                        jswLabel aqual = new jswLabel(anattribute.getQualifier());
                         memberpanel.addCell(aqual, row, 1);
                         jswHorizontalPanel buttonpanel = new jswHorizontalPanel();
-
                         jswButton viewcontact = new jswButton(this, "VIEW",
                                 "VIEW:" + linkedcontact.getIDstr());
                         buttonpanel.add(viewcontact);
                         jswButton disconnect = new jswButton(this, "REFLECT",
                                 "REFLECT:" + cid + ":" + selector + ":"
-                                        + qualifier);
+                                        + aqualifier);
                         buttonpanel.add(disconnect);
                         memberpanel.addCell(buttonpanel, row, 2);
                     } else
                     {
-                        if (value == null || value.equalsIgnoreCase("null"))
-                        {
-                            value = "New Linked Contact";
-                        }
-                        jswLabel alabel = new jswLabel(value);
+                        jswLabel alabel = new jswLabel(" invalid link ");
                         memberpanel.addCell(alabel, row, 0);
                         jswLabel aqual = new jswLabel(
                                 anattribute.getQualifier());
@@ -617,14 +643,16 @@ public class editPanel extends jswVerticalPanel implements ActionListener
                     {
                         if (editattributekey.equalsIgnoreCase(attributekey))
                         {
-                            jswLabel alabel = new jswLabel(value);
+                            jswLabel alabel = new jswLabel(linkedcontact.getName());
                             memberpanel.addCell(alabel, row, 0);
                             jswLabel aqlabel = new jswLabel(qualifier);
                             memberpanel.addCell(aqlabel, row, 1);
-                            atteditbox = new jswTextBox(this, "qualifier");
+                            atteditbox = new jswTextBox(this, "qualifier", 100);
                             atteditbox.setText(qualifier);
                             atteditbox.setEnabled(true);
                             memberpanel.addCell(atteditbox, " FILLW ", row, 1);
+                            atteditbox.setStyleAttribute("myheight", 50);
+                            atteditbox.applyStyle();
                             jswHorizontalPanel buttonpanel = new jswHorizontalPanel();
                             jswButton viewcontact2 = new jswButton(this,
                                     "UPDATE", "UPDATELINKTOATTRIBUTE");
@@ -635,7 +663,8 @@ public class editPanel extends jswVerticalPanel implements ActionListener
                             memberpanel.addCell(buttonpanel, row, 2);
                         } else
                         {
-                            jswLabel alabel = new jswLabel(value);
+                            jswLabel alabel = new jswLabel(linkedcontact.getName());
+                            //   jswLabel alabel = new jswLabel(value);
                             memberpanel.addCell(alabel, row, 0);
                             jswLabel aqlabel = new jswLabel(qualifier);
                             memberpanel.addCell(aqlabel, row, 1);
@@ -782,11 +811,13 @@ public class editPanel extends jswVerticalPanel implements ActionListener
         jswButton ncbutton = new jswButton(this, "New Contact", "NEWCONTACT");
         newcontactbox.add("MIDDLE", ncbutton);
         mcContact selcontact = mcdb.selbox.getSelcontact();
-        setBackground(new Color(0, 0, 0, 0));
+        //setBackground(new Color(0, 0, 0, 0));
+        setBackground(background);
         jswHorizontalPanel idbox = new jswHorizontalPanel("idbox", false);
         add(" fillW ", idbox);
         jswLabel idpanel1 = new jswLabel(" ");
-        idbox.add(idpanel1);
+        idbox.add(" ", idpanel1);
+        idpanel1.applyStyle(panelstyles.getStyle("mediumLabel"));
         if (selcontact != null)
             idpanel1.setText(selcontact.getIDstr());
         else
@@ -810,6 +841,7 @@ public class editPanel extends jswVerticalPanel implements ActionListener
             tideditbox.setEnabled(true);
             tideditbox.setStyleAttribute("width", 200);
             tideditbox.applyStyle();
+            // tideditbox.applyStyle(panelstyles.getStyle("mediumLabel"));
             tagspanel = new jswLabel("tags");
             tagspanel.setText(selcontact.getTags());
             tagspanel.applyStyle();
@@ -836,12 +868,13 @@ public class editPanel extends jswVerticalPanel implements ActionListener
             edit = "";
             editattributekey = "";
             idpanel2 = new jswLabel("panel");
-            idpanel2.applyStyle(mcdb.panelstyles.getStyle("mediumLabel"));
+            idpanel2.applyStyle(panelstyles.getStyle("mediumLabel"));
             mcContact acontact = mcdb.selbox.getSelcontact();
             if (acontact != null)
             {
                 String atid = acontact.getTID();
                 idpanel2.setText(atid);
+                idpanel2.applyStyle(panelstyles.getStyle("mediumLabel"));
             }
             //String atid = acontact.getTID();
             //idpanel2 = new jswLabel(atid);
@@ -859,7 +892,7 @@ public class editPanel extends jswVerticalPanel implements ActionListener
 
         jswTable attributepanel = new jswTable(this, "attributes", tablestyles);
         attributepanel.setMarker("edittable");
-        add(" ", attributepanel);
+        add(" FILLW ", attributepanel);
         attributepanel.removeAll();
         mcdb.selbox.getSelcontact().fillContact();
         int row = 0;
@@ -1104,7 +1137,7 @@ public class editPanel extends jswVerticalPanel implements ActionListener
         {
             jswHorizontalPanel newmemberpanel = new jswHorizontalPanel("newmember", false);
             //newmemberpanel.setTrace(true);
-            newmemberpanel.applyStyle(mcdb.panelstyles.getStyle("borderstyle"));
+            newmemberpanel.applyStyle(panelstyles.getStyle("borderstyle"));
             linkselect = new jswDropDownBox(null, edattributename);
             Vector<String> llist = new Vector<String>();
             llist.add("memberof");
@@ -1130,7 +1163,7 @@ public class editPanel extends jswVerticalPanel implements ActionListener
             newmemberpanel.add("RIGHT", buttonbox);
             add(" FILLW ", newmemberpanel);
             jswHorizontalPanel groupmemberpanel = new jswHorizontalPanel();
-            groupmemberpanel.applyStyle(mcdb.panelstyles.getStyle("borderstyle"));
+            groupmemberpanel.applyStyle(panelstyles.getStyle("borderstyle"));
             groupselect = new jswDropDownBox(this, "Select Group");
             groupselect.addList(mcdb.selbox.getTaglist());
             groupmemberpanel.add(" WIDTH=300 ", groupselect);// paul to fix
@@ -1146,7 +1179,7 @@ public class editPanel extends jswVerticalPanel implements ActionListener
         }
         this.repaint();
         this.validate();
+        //mcdb.topgui.refreshView();
         mcdb.topgui.getContentPane().validate();
     }
-
 }

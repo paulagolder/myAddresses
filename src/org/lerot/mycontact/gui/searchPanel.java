@@ -1,20 +1,16 @@
 package org.lerot.mycontact.gui;
 
+import org.lerot.mycontact.mcContact;
+import org.lerot.mycontact.mcContacts;
+import org.lerot.mycontact.mcdb;
+import org.lerot.mywidgets.*;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map.Entry;
-
-
-import javax.swing.ScrollPaneConstants;
-
-import org.lerot.mywidgets.*;
-import org.lerot.mycontact.mcAttribute;
-import org.lerot.mycontact.mcContact;
-import org.lerot.mycontact.mcContacts;
-import org.lerot.mycontact.gui.selectorBox;
-import org.lerot.mycontact.mcdb;
 
 public class searchPanel extends jswVerticalPanel implements ActionListener
 {

@@ -1,21 +1,16 @@
 package org.lerot.mycontact.gui;
 
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JTabbedPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import org.lerot.mywidgets.jswHorizontalPanel;
 import org.lerot.mywidgets.jswPanel;
-import org.lerot.mywidgets.jswRectLayout;
 import org.lerot.mywidgets.jswStyle;
 import org.lerot.mywidgets.jswTabbedPanel;
 import org.lerot.mywidgets.jswVerticalLayout;
-import org.lerot.mywidgets.jswVerticalPanel;
-import org.lerot.mycontact.mcdb;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ToolsPanel extends jswPanel implements ActionListener,
 		ChangeListener

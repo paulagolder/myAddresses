@@ -1,23 +1,26 @@
 package org.lerot.mycontact.gui.widgets;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridBagLayout;
-import java.awt.Point;
-import java.awt.Rectangle;
+import ezvcard.Ezvcard;
+import ezvcard.VCard;
+import org.lerot.mycontact.mcContact;
+import org.lerot.mycontact.mcUtilities;
+import org.lerot.mycontact.mcdb;
+import org.lerot.mywidgets.jswHorizontalPanel;
+import org.lerot.mywidgets.jswStyle;
+import org.lerot.mywidgets.jswStyles;
+
+import javax.imageio.ImageIO;
+import javax.mail.Address;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
+import java.awt.dnd.*;
 import java.awt.image.BufferedImage;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -32,29 +35,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.TooManyListenersException;
 
-import javax.imageio.ImageIO;
-import javax.mail.Address;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.swing.JLabel;
-//import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
-import org.lerot.mywidgets.jswPanel;
-import org.lerot.mywidgets.jswStyle;
-import org.lerot.mywidgets.jswStyles;
-import org.lerot.mycontact.mcAttribute;
-import org.lerot.mycontact.mcContact;
-import org.lerot.mycontact.mcUtilities;
-import org.lerot.mycontact.mcdb;
-
-import ezvcard.Ezvcard;
-import ezvcard.VCard;
-import ezvcard.property.StructuredName;
-
-public class jswDropPane extends jswPanel
+public class jswDropPane extends jswHorizontalPanel
 {
 
 	private static final long serialVersionUID = 1L;
@@ -73,7 +54,7 @@ public class jswDropPane extends jswPanel
 	
 	public jswDropPane(String adirection)
 	{
-		super(adirection);
+		//super(adirection);
 		try
 		{
 			target = ImageIO
@@ -87,7 +68,7 @@ public class jswDropPane extends jswPanel
 		style.copyAll(containerstyles.getStyle("jswContainer"));
 		style.copyAll(containerstyles.getStyle(stylename));
 		style.setStyleName(stylename);
-		doStyling(style);
+	//	doStyling(style);
         direction = adirection;
 		setLayout(new GridBagLayout());
 		message = new JLabel(direction);
@@ -99,7 +80,7 @@ public class jswDropPane extends jswPanel
 	@Override
 	public Dimension getMinimumSize()
 	{
-		return new Dimension(100, 100);
+		return new Dimension(600, 100);
 	}
 
 	protected DropTarget getMyDropTarget()

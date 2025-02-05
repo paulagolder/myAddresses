@@ -1,19 +1,13 @@
 package org.lerot.mycontact.gui;
 
+import org.lerot.mycontact.*;
+import org.lerot.mywidgets.*;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map.Entry;
 import java.util.Vector;
-
-import javax.swing.ButtonGroup;
-
-
-import org.lerot.mywidgets.*;
-import org.lerot.mycontact.mcAttribute;
-import org.lerot.mycontact.mcAttributes;
-import org.lerot.mycontact.mcContact;
-import org.lerot.mycontact.mcContacts;
-import org.lerot.mycontact.mcdb;
 
 public class mergeContactPanel extends jswVerticalPanel implements
 		ActionListener

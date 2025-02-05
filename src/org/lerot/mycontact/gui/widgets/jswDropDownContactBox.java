@@ -5,7 +5,6 @@ import org.lerot.mycontact.mcContacts;
 import org.lerot.mywidgets.jswLabel;
 import org.lerot.mywidgets.jswPanel;
 import org.lerot.mywidgets.jswStyle;
-import org.lerot.mywidgets.jswUtils;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;

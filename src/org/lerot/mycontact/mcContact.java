@@ -1,30 +1,20 @@
 package org.lerot.mycontact;
 
+import ezvcard.VCard;
+import ezvcard.property.StructuredName;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.Vector;
-
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.w3c.dom.Node;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
-import ezvcard.VCard;
-import ezvcard.property.StructuredName;
-import ezvcard.property.VCardProperty;
 
 public class mcContact extends mcDataObject implements Comparable<mcContact>
 {
@@ -379,16 +369,12 @@ public class mcContact extends mcDataObject implements Comparable<mcContact>
 
 	public String getIDstr()
 	{
-		String ids = ("000000" + this.getCID());
-		int l = ids.length();
-		return ids.substring(l - 6);
+		return mcUtilities.makeIDstr(this.getCID());
 	}
 
 	public static String makeIDstr(String id)
 	{
-		String ids = ("000000" + id);
-		int l = ids.length();
-		return ids.substring(l - 6);
+		return mcUtilities.makeIDstr(id);
 	}
 
 	public String getSimpleIDstr()
@@ -479,16 +465,22 @@ public class mcContact extends mcDataObject implements Comparable<mcContact>
 		return user;
 	}
 
-	public boolean hasAttributeByValue(String value)
+	public boolean hasAttributeByValue(String root, String qualifier,String value)
 	{
-
+		System.out.println("looking for:"+getID()+":"+root+":"+qualifier+":"+value);
 		for (Entry<String, mcAttribute> anat : attributes.entrySet())
 		{
 			mcAttribute anattribute = anat.getValue();
-			String testvalue = anattribute.getValue();
-			if (value.equalsIgnoreCase(testvalue))
-			{ return true; }
+			String aroot = anattribute.getRoot();
+			String aqual = anattribute.getQualifier();
+			String avalue = anattribute.getValue();
+			if (value.equalsIgnoreCase(avalue) && root.equalsIgnoreCase(aroot) && qualifier.equalsIgnoreCase(aqual))
+			{
+				System.out.println("found");
+				return true;
+			}
 		}
+		System.out.println("not found");
 		return false;
 	}
 

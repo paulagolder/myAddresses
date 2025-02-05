@@ -1,25 +1,17 @@
 package org.lerot.mycontact.gui;
 
-import java.awt.Color;
-import java.awt.Font;
+import org.lerot.mycontact.gui.widgets.jswEditPanel;
+import org.lerot.mycontact.mcAttribute;
+import org.lerot.mycontact.mcContact;
+import org.lerot.mycontact.mcdb;
+import org.lerot.mywidgets.*;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map.Entry;
 import java.util.Vector;
-
-import javax.swing.JOptionPane;
-
-import org.lerot.mywidgets.jswButton;
-
-import org.lerot.mywidgets.jswHorizontalPanel;
-import org.lerot.mywidgets.jswOptionset;
-import org.lerot.mywidgets.jswStyle;
-import org.lerot.mywidgets.jswStyles;
-import org.lerot.mywidgets.jswVerticalPanel;
-import org.lerot.mycontact.mcAttribute;
-import org.lerot.mycontact.mcContact;
-import org.lerot.mycontact.mcdb;
-import org.lerot.mycontact.gui.widgets.jswEditPanel;
 
 public class ImportEditPanel extends jswVerticalPanel implements ActionListener
 {

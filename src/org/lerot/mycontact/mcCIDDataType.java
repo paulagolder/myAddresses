@@ -1,10 +1,10 @@
 package org.lerot.mycontact;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Vector;
-
-import org.apache.commons.lang3.StringEscapeUtils;
 
 public class mcCIDDataType extends mcDataType
 	{

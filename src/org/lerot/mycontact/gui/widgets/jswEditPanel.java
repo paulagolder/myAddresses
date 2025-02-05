@@ -1,16 +1,14 @@
 package org.lerot.mycontact.gui.widgets;
 
-import java.awt.Dimension;
+import org.lerot.mywidgets.jswHorizontalPanel;
+
+import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
-
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
-
-import org.lerot.mywidgets.jswHorizontalPanel;
 
 public class jswEditPanel extends jswHorizontalPanel implements ActionListener
 {

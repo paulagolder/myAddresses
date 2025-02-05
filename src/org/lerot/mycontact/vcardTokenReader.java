@@ -1,12 +1,12 @@
 package org.lerot.mycontact;
 
+import org.apache.commons.codec.DecoderException;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
-
-import org.apache.commons.codec.DecoderException;
 
 public class vcardTokenReader
 {

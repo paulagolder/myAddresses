@@ -1,7 +1,6 @@
 package org.lerot.mycontact;
 
 import java.util.Comparator;
-import java.util.Map;
 import java.util.TreeSet;
 
 public class mcContactSet extends TreeSet<mcContact>

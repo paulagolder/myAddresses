@@ -1,5 +1,13 @@
 package org.lerot.mycontact.gui;
 
+import org.lerot.mycontact.mcContacts;
+import org.lerot.mycontact.mcLetter;
+import org.lerot.mycontact.mcPDF;
+import org.lerot.mycontact.mcdb;
+import org.lerot.mywidgets.*;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -8,15 +16,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
-import org.lerot.mywidgets.*;
-import org.lerot.mycontact.mcContacts;
-import org.lerot.mycontact.mcLetter;
-import org.lerot.mycontact.mcPDF;
-import org.lerot.mycontact.mcdb;
 
 import static org.lerot.mycontact.mcdb.topgui;
 

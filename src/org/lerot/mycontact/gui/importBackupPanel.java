@@ -1,5 +1,10 @@
 package org.lerot.mycontact.gui;
 
+import org.lerot.mycontact.*;
+import org.lerot.mywidgets.*;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -8,20 +13,6 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
-
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
-import org.lerot.mycontact.mcDateDataType;
-import org.lerot.mycontact.mcImportXML;
-import org.lerot.mycontact.mcImportexception;
-import org.lerot.mycontact.mcMappings;
-import org.lerot.mycontact.mcdb;
-import org.lerot.mywidgets.jswButton;
-import org.lerot.mywidgets.jswHorizontalPanel;
-import org.lerot.mywidgets.jswLabel;
-import org.lerot.mywidgets.jswTextBox;
-import org.lerot.mywidgets.jswVerticalPanel;
 
 public class importBackupPanel extends jswVerticalPanel
 		implements ActionListener

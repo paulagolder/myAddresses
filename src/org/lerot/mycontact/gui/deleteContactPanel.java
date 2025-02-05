@@ -1,23 +1,16 @@
 package org.lerot.mycontact.gui;
 
+import org.lerot.mycontact.mcContact;
+import org.lerot.mycontact.mcContacts;
+import org.lerot.mycontact.mcdb;
+import org.lerot.mywidgets.*;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.Vector;
-
-import javax.swing.ButtonGroup;
-
-import org.lerot.mywidgets.jswButton;
-import org.lerot.mywidgets.jswCheckbox;
-import org.lerot.mywidgets.jswHorizontalPanel;
-import org.lerot.mywidgets.jswLabel;
-import org.lerot.mywidgets.jswTable;
-import org.lerot.mywidgets.jswTextBox;
-import org.lerot.mywidgets.jswVerticalPanel;
-import org.lerot.mycontact.mcContact;
-import org.lerot.mycontact.mcContacts;
-import org.lerot.mycontact.mcdb;
 
 public class deleteContactPanel extends jswVerticalPanel implements
 		ActionListener, ComponentListener

@@ -1,24 +1,14 @@
 package org.lerot.mycontact;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import org.lerot.mywidgets.jswLabel;
+
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-
-import org.lerot.mywidgets.jswLabel;
-
-import java.util.Set;
-import java.util.Vector;
 
 public class mcImports extends mcDataObject
 {

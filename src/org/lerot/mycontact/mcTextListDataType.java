@@ -1,15 +1,9 @@
 package org.lerot.mycontact;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.Vector;
-
 import org.apache.commons.lang3.StringEscapeUtils;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 public class mcTextListDataType extends mcDataType
 {

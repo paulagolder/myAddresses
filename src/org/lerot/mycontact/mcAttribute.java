@@ -1,25 +1,14 @@
 package org.lerot.mycontact;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.Vector;
-
-import javax.swing.JComponent;
-
 import org.lerot.mywidgets.jswImage;
 import org.lerot.mywidgets.jswLabel;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+
+import javax.swing.*;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.*;
 
 public class mcAttribute extends mcDataObject
 {
@@ -521,7 +510,11 @@ public class mcAttribute extends mcDataObject
 		String attkey = getKey();
 		attributetype = mcAttributeTypes.findType(attkey);
 		if (attributetype == null)
+			attributetype = mcAttributeTypes.findType(attkey.toLowerCase());
+		if (attributetype == null)
 			attributetype = mcAttributeTypes.findType(root);
+		if (attributetype == null)
+			attributetype = mcAttributeTypes.findType(root.toLowerCase());
 		if (attributetype == null)
 		{
 			System.out.println(
@@ -637,7 +630,7 @@ public class mcAttribute extends mcDataObject
 	{
 		//return getKey() + "(" + attributetype.getAttributeLabel() + ")" + ":"
 		//		+ getAttributevalue().getStringvalue() + "  ";
-		return  this.cid+"+"+this.qualifier+"+"+this.attributetype.getAttributeLabel()+"+"+this.attributevalue.getValue();
+		return  this.cid+"+"+this.attributetype.getAttributeLabel()+"+"+this.qualifier+"+"+this.attributevalue.getValue();
 	}
 
 	public String toXCard()

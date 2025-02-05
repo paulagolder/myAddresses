@@ -1,25 +1,15 @@
 package org.lerot.mycontact;
 
+import org.lerot.mywidgets.jswCheckbox;
+
 import java.io.PrintWriter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-
-
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
-import java.util.Vector;
-
-import org.lerot.mycontact.gui.widgets.jswContactTree;
-import org.lerot.mywidgets.jswCheckbox;
 
 public class mcContacts extends mcDataObject
 {

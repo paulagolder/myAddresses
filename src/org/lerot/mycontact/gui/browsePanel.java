@@ -1,19 +1,15 @@
 package org.lerot.mycontact.gui;
 
-import java.awt.Color;
-import java.awt.Desktop;
-import java.awt.Dimension;
-import java.awt.Font;
+import org.lerot.mycontact.gui.widgets.jswDropPane;
+import org.lerot.mycontact.*;
+import org.lerot.mywidgets.*;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -21,31 +17,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Vector;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-//import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-//import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
-import org.lerot.mywidgets.*;
-import org.lerot.mycontact.mcAttribute;
-import org.lerot.mycontact.mcAttributeType;
-import org.lerot.mycontact.mcAttributeTypes;
-import org.lerot.mycontact.mcAttributes;
-import org.lerot.mycontact.mcContact;
-import org.lerot.mycontact.mcContacts;
-import org.lerot.mycontact.mcCorrespondance;
-import org.lerot.mycontact.mcDateDataType;
-import org.lerot.mycontact.mcLetter;
-//import org.lerot.mycontact.mcMember;
-import org.lerot.mycontact.mcPDF;
-import org.lerot.mycontact.mcdb;
-import org.lerot.mycontact.gui.widgets.jswDropDownContactBox;
-import org.lerot.mycontact.gui.widgets.jswDropPane;
+import static org.lerot.mycontact.mcdb.panelstyles;
 
 public class browsePanel extends jswVerticalPanel implements ActionListener
 {
@@ -59,6 +31,7 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 	private jswDropDownBox statuseditbox;
 	private jswTextBox dateeditbox;
 	private jswTextBox subjecteditbox;
+	Color correspondancepanelcolor = new Color(200,220,200);
 
 	public browsePanel()
 	{
@@ -67,8 +40,10 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
         vcarddirectory = mcdb.topgui.desktop;
 		jswStyles defaultstyles = jswStyles.getDefaultStyles();
 		tablestyles = StylesMakeAttributeTable();
+		tablestyles = searchTableStyles();
 		//tablestyles = defaultstyles;
-		linktablestyles = StylesMakeLinkTable();
+		//linktablestyles = StylesMakeLinkTable();
+		linktablestyles =searchTableStyles();
 		//jswStyles mystyles = mystyles;
 	}
 
@@ -439,10 +414,12 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 			jswLabel idpanel1 = new jswLabel(" ");
 			idbox.add(idpanel1);
 			idpanel1.setText(selcontact.getIDstr());
+			idpanel1.applyStyle(panelstyles.getStyle("mediumLabel"));
 			jswLabel idpanel2 = new jswLabel(" ");		
 			idbox.add(idpanel2);
 			idpanel2.setText(selcontact.getName());
-			idpanel2.applyStyle();
+			idpanel2.applyStyle(panelstyles.getStyle("mediumLabel"));
+			//idpanel2.applyStyle();
 			jswButton vcardexport = new jswButton(this, "VCard");
 			idbox.add("RIGHT", vcardexport);
 			selcontact.fillContact();
@@ -458,7 +435,7 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 			}
 			if (hasmemberslist != null)
 			{
-				hasmemberslist.printlist("hm");
+				//hasmemberslist.printlist("hm");
 				jswHorizontalPanel memberheading = new jswHorizontalPanel();
 				jswLabel label = new jswLabel("Has Members");
 				memberheading.add(" MIDDLE ", label);
@@ -483,10 +460,10 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 			{
 				jswVerticalPanel aorglist = makeLinkToPanel(memberoflist, "memberof","Member Of");
 				browsepanel.add(" FILLW ",aorglist);
-				memberoflist.printlist("mo");
+				//memberoflist.printlist("mo");
 			}
 			jswLabel correspondancelabel = new jswLabel("Correspondance");
-			browsepanel.add(" BOTTOM ", correspondancelabel);
+			browsepanel.add("  ", correspondancelabel);
 			jswVerticalPanel correspondance = makeCorrespondancePanel(selcontact, "letters");
 			browsepanel.add(" FILLH FILLW  ", correspondance);
 			jswHorizontalPanel bottom = new jswHorizontalPanel("fred", false);
@@ -514,8 +491,10 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 				false,false);
 		jswTable letterpanel = new jswTable(this,"correspondance table", cstyles);
 		frame.add("  ", letterpanel);
-		// JPanel pane = new JPanel();
-
+		//frame.setStyleAttribute("backgroundcolor", "red");
+      //  frame.applyStyle();
+		letterpanel .setBackground(correspondancepanelcolor);
+		//letterpanel .applyStyle();
 		if (selcontact != null)
 		{
 			Vector<mcCorrespondance> letters = selcontact.getCorrespondance();
@@ -585,7 +564,7 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 		if (selcontact != null)
 		{
 			mcAttributes getlinked = (new mcAttributes())
-					.FindByAttributeValue(selector, selcontact.getTID());
+					.FindByAttributeValue(selector, selcontact.getIDstr());
 			for (Entry<String, mcAttribute> anentry : getlinked.entrySet())
 			{
 				mcAttribute anattribute = anentry.getValue();
@@ -629,11 +608,7 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 					jswButton viewcontact = new jswButton(this, "VIEW",
 							"VIEW:" + acontact.getIDstr());
 					memberpanel.addCell(viewcontact, row, 3);
-					if (selcontact.hasAttributeByValue(acontact.getTID()))
-					{
-						// jswLabel arefll = new jswLabel("found");
-						// memberpanel.addCell(arefll, row, 3);
-					}
+
 					row++;
 				}
 
@@ -668,7 +643,7 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 				String value = anattribute.getValue();
 				// System.out.println(" found " + anattribute.getRoot() + " "
 				// + anattribute.getQualifier() + " " + value);
-				mcContact linkedcontact = mcdb.selbox.FindbyTID(value);
+				mcContact linkedcontact = mcdb.selbox.FindbyIDstr(value);
 				if (linkedcontact != null)
 				{
 					list.put(linkedcontact);
@@ -1013,8 +988,9 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 	{
 		jswStyles tablestyles = jswStyles.clone("CorrespondanceStyles",mcdb.getTableStyles());
 
-		jswStyle tablestyle = tablestyles.makeStyle("xtable");
-		tablestyle.putAttribute("backgroundColor", "#C0C0C0");
+		jswStyle tablestyle = tablestyles.makeStyle("table");
+
+		//tablestyle.putAttribute("backgroundColor", new Color(200,220,200));
 		tablestyle.putAttribute("foregroundColor", "Green");
 		tablestyle.putAttribute("borderWidth", "2");
 		tablestyle.putAttribute("borderColor", "blue");
@@ -1127,5 +1103,54 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 			return null;
 	}
 
+	public static jswStyles searchTableStyles()
+	{
+		jswStyles tablestyles = new jswStyles();
+		tablestyles.name = "defaulttable";
+		jswStyle tablestyle = tablestyles.makeStyle("table");
+		//tablestyle.putAttribute("backgroundColor", "#c0d6f2");
+		tablestyle.putAttribute("borderwidth", "1");
+		tablestyle.putAttribute("borderColor", "green");
+		jswStyle cellstyle = tablestyles.makeStyle("cell");
+		//	cellstyle.putAttribute("backgroundColor", "#c0d6f2");
+		cellstyle.putAttribute("fontSize", "12");
+		cellstyle.putAttribute("fontStyle", Font.PLAIN);
+		cellstyle.putAttribute("borderColor", "black");
+		cellstyle.putAttribute("borderWidth", 1);
+		cellstyle.putAttribute("padding", 4);
 
+		jswStyle rowstyle = tablestyles.makeStyle("row");
+		//row0style.putAttribute("fontStyle", Font.BOLD + Font.ITALIC);
+		rowstyle.putAttribute("minheight", 50);
+
+		jswStyle cell00style = tablestyles.makeStyle("cell");
+		//cell00style.putAttribute("foregroundColor", "transparent");
+		cell00style.putAttribute("minheight", 50);
+		jswStyle colstyle = tablestyles.makeStyle("col");
+		colstyle.setHorizontalAlign("RIGHT");
+		jswStyle col0style = tablestyles.makeStyle("col_0");
+		col0style.putAttribute("fontStyle", Font.BOLD);
+		col0style.putAttribute("fontSize", "16");
+		col0style.putAttribute("backgroundColor", "PINK");
+		col0style.putAttribute("minwidth", true);
+		col0style.setHorizontalAlign("LEFT");
+
+		jswStyle col1style = tablestyles.makeStyle("col_1");
+		//col1style.putAttribute("fontStyle", Font.BOLD);
+		//col1style.putAttribute("fontSize", "16");
+		//col1style.putAttribute("backgroundColor", "BLUE");
+
+		jswStyle col2style = tablestyles.makeStyle("col_2");
+		//col1style.putAttribute("fontStyle", Font.BOLD);
+		//col2style.putAttribute("fontSize", "16");
+		col2style.putAttribute("minwidth", true);
+		col2style.putAttribute("backgroundColor", "GREEN");
+		jswStyle col3style = tablestyles.makeStyle("col_3");
+		//col1style.putAttribute("fontStyle", Font.BOLD);
+		//col2style.putAttribute("fontSize", "16");
+		col3style.putAttribute("minwidth", true);
+		col3style.putAttribute("backgroundColor", "GREEN");
+
+		return tablestyles;
+	}
 }
