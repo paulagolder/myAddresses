@@ -23,11 +23,11 @@ public class backupTabPanel extends jswTabbedPanel
 
 
 
-	public void showBackupPanel()
+	public void refresh()
 	{
 		makebackuppanel.refresh();
 		recoverbackuppanel.refresh();
-		
 	}
+
 
 }

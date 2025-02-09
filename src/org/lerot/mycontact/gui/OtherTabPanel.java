@@ -34,14 +34,12 @@ public class OtherTabPanel extends jswTabbedPanel
 
 	}
 
-	public void showOtherPanel()
+	public void refresh()
 	{
-		//attedpanel1.refresh();
 		manageTagspanel2.refresh();
 		mergeContactPanel3.refresh();
 		deleteContactPanel3.initialise();
 		editListPanel3.initialise();
-
 	}
 
 }

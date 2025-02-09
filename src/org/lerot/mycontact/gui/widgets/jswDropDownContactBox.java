@@ -101,7 +101,6 @@ public class jswDropDownContactBox extends jswPanel implements ActionListener
             }
             contactddbox.setSelectedIndex(0);
         }
-
     }
 
     public mcContact setNextValue()

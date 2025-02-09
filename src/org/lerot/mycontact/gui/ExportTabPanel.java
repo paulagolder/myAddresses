@@ -23,7 +23,7 @@ public class ExportTabPanel extends jswTabbedPanel implements ComponentListener
 		setSelectedComponent(exportpanel1);
 	}
 
-	public void showExportPanel()
+	public void refresh()
 	{
 		exportpanel1.refresh();
 		labelpanel2.refresh();
@@ -56,4 +56,6 @@ public class ExportTabPanel extends jswTabbedPanel implements ComponentListener
 		exportpanel1.refresh();
 		labelpanel2.refresh();
 	}
+
+
 }

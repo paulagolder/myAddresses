@@ -10,8 +10,6 @@ import java.util.Vector;
 public class mcTimeDataType extends mcDataType
 {
 
-
-
 		public mcTimeDataType()
 		{
 			super("timestamp", "timestamp");
@@ -25,7 +23,6 @@ public class mcTimeDataType extends mcDataType
 		@Override
 		public String getFormattedValue(String value, String fmt)
 		{
-
 			return value;
 		}
 
@@ -90,7 +87,6 @@ public class mcTimeDataType extends mcDataType
 			 return attts.compareTo(testts);
 		}
 
-	
 		@Override
 		public boolean matchesVcardValue(String avalue, String bvalue)
 		{ 

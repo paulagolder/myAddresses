@@ -50,7 +50,7 @@ public class mcdb extends JFrame implements ActionListener
     public static Map<String, Map<String, String>> labeltemplates = null;
     public static mcDataTypes alldatatypes;
     public static mcAttributeTypes myattributetypes;
-    static String version = "V 31.0";
+    public static String version = "31.0";
     private final Dimension defdimension;
     public mcDataSource currentcon;
     public browsePanel abrowsepanel;
@@ -248,18 +248,15 @@ public class mcdb extends JFrame implements ActionListener
         jswStyle jswButtonStyles = panelstyles.makeStyle("jswButton");
         jswButtonStyles.putAttribute("fontsize", "10");
 
-
         jswStyle jswToggleButtonStyles = panelstyles
                 .makeStyle("jswToggleButton");
         jswToggleButtonStyles.putAttribute("foregroundColor", "Red");
 
         jswStyle jswTextBoxStyles = panelstyles.makeStyle("jswTextBox");
 
-        //jswStyle jswTextBoxStyles = panelstyles.makeStyle("jswTextBox");
         jswTextBoxStyles.putAttribute("backgroundColor", "#e0dcdf");
 
         jswStyle jswDropDownBoxStyles = panelstyles.makeStyle("jswDropDownBox");
-        // jswDropDownBoxStyles.putAttribute("backgroundColor","#C0C0C0");
 
         jswStyle jswhpStyles = panelstyles.makeStyle("jswContainer");
         jswhpStyles.putAttribute("backgroundColor", "#C0C0C0");
@@ -276,7 +273,6 @@ public class mcdb extends JFrame implements ActionListener
 
         jswStyle jswBorderStyle = panelstyles.makeStyle("borderstyle");
         jswBorderStyle.putAttribute("borderWidth", "1");
-        // jswBorderStyle.putAttribute("borderColor", "#C0C0C0");
         jswBorderStyle.putAttribute("borderColor", "black");
 
         jswStyle hpanelStyle = panelstyles.makeStyle("hpanelstyle");
@@ -422,7 +418,7 @@ public class mcdb extends JFrame implements ActionListener
             selbox.setVisible(false);
             mainpanel.removeAll();
             mainpanel.add(" FILLW ", toolspanel);
-            toolspanel.repaint();
+            toolspanel.refresh();
         }
 
         mainpanel.repaint();
@@ -534,5 +530,6 @@ public class mcdb extends JFrame implements ActionListener
             }
         });
     }
+
 
 }

@@ -17,10 +17,7 @@ public class ToolsPanel extends jswPanel implements ActionListener,
 {
 
 	private static final long serialVersionUID = 1L;
-
 	ActionListener plistener = null;
-	//attributeEditPanel attedpanel1;
-
 	int othertabno;
 	int toolstab;
 
@@ -77,7 +74,6 @@ public class ToolsPanel extends jswPanel implements ActionListener,
 		{
 			manageTagspanel2.refresh();
 		}
-
 		validate();
 	}
 
@@ -107,6 +103,14 @@ public class ToolsPanel extends jswPanel implements ActionListener,
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void refresh()
+	{
+		backuppanel.refresh();
+		importpanel.refresh();
+		exportpanel.refresh();
+		otherpanel.refresh();
 	}
 
 	

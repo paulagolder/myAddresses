@@ -169,6 +169,11 @@ public class mcAttributeType extends mcDataObject
 		return dt.toXML(attributevalue.getValue());
 	}
 
+	public String toXML(String attributevalue)
+	{
+		return dt.toXML(attributevalue);
+	}
+
 	public String arrayToString(Set<String> tokenlist)
 	{
 		return dt.setToString(tokenlist);

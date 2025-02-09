@@ -303,7 +303,8 @@ public class exportPanel extends jswVerticalPanel implements ActionListener
 
 	public void refresh()
 	{
-		int nbrowsecontacts = mcdb.selbox.getBrowsecontactlist().size();
+		//int nbrowsecontacts = mcdb.selbox.getBrowsecontactlist().size();
+		int nbrowsecontacts = 1234;
 		browselabel.setText("Browse Contacts (" + nbrowsecontacts + ")");
 	}
 }

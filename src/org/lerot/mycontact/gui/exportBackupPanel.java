@@ -18,7 +18,6 @@ import java.util.Vector;
 public class exportBackupPanel extends jswVerticalPanel
 		implements ActionListener
 {
-
 	private static final long serialVersionUID = 1L;
 	JFileChooser fc;
 	jswHorizontalPanel importbar;
@@ -27,7 +26,6 @@ public class exportBackupPanel extends jswVerticalPanel
 	File exportfile;
 	String exporttype;
 	jswDropDownBox exporttypebox;
-
 	jswButton selbutton;
 	jswTextBox selectedfile;
 
@@ -57,28 +55,34 @@ public class exportBackupPanel extends jswVerticalPanel
 		optionset = new jswOptionset(this,"source", false, false);
 		allcontacts = optionset
 				.addNewOption("All Contacts " + mcdb.selbox.countAll(), false);
-		// allcontacts.setTag("all");
+		allcontacts.setTag("all");
+		allcontacts.setStyleAttribute("mywidth",300);
+		allcontacts.applyStyle();
 		browsecontacts = optionset.addNewOption(
 				"Browse Contacts " + mcdb.selbox.getBrowsecontactlist().size(),
 				false);
-		// browsecontacts.setTag("browse");
+		browsecontacts.setTag("browse");
+		browsecontacts.setStyleAttribute("mywidth",300);
+		browsecontacts.applyStyle();
 		selectedcontacts = optionset.addNewOption(
 				"Selected Contacts " + mcdb.selbox.getSearchResultList().size(),
 				false);
-		// selectedcontacts.setTag("selected");
+		selectedcontacts.setTag("selected");
+		selectedcontacts.setStyleAttribute("mywidth",300);
+		selectedcontacts.applyStyle();
 		filterbar.add(" LEFT ", allcontacts);
 		filterbar.add(" MIDDLE ", browsecontacts);
 		browsecontacts.setSelected(true);
+
 		filterbar.add(" RIGHT ", selectedcontacts);
-		this.add(filterbar);
+		this.add(" FILLW ", filterbar);
 		jswHorizontalPanel filebar = new jswHorizontalPanel();
 		selbutton = new jswButton(this, "Select");
 		filebar.add(" LEFT ", selbutton);
 		String bufilename = mcdb.topgui.budir + "/contacts_bu_"
 				+ mcDateDataType.getNow("yyyyMMdd") + ".xml";
-		// File file = new File(bufilename);
-
-		selectedfile = new jswTextBox(this,bufilename);
+		selectedfile = new jswTextBox(this,bufilename,300);
+		//selectedfile = new jswTextBox(this,bufilename);
 		selectedfile.setText(bufilename);
 		selectedfile.setEnabled(true);
 		System.out.println(bufilename);
@@ -88,21 +92,18 @@ public class exportBackupPanel extends jswVerticalPanel
 		varry.add("XML");
 		exporttypebox.addList(varry);
 		filebar.add(" LEFT WIDTH=200 ", exporttypebox);
-
 		this.add(filebar);
 		importbar = new jswHorizontalPanel();
 		backupbutton = new jswButton(this, "BackUp");
 		importbar.add(" MIDDLE  ", backupbutton);
 		backupbutton.setVisible(true);
 		this.add(importbar);
-
 		exportresult = new jswHorizontalPanel();
 		countlabel = new jswLabel("freddy");
 		exportresult.add(" middle ", countlabel);
 		countlabel.setVisible(false);
 		exportresult.setVisible(true);
 		this.add(exportresult);
-
 		exportlog = new jswVerticalPanel("title",false,false);;
 		imptrace = new jswLabel("");
 		exportlog.add(imptrace);
@@ -114,29 +115,27 @@ public class exportBackupPanel extends jswVerticalPanel
 		this.setVisible(true);
 		refresh();
 		this.refresh();
-
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e)
+	public void actionPerformed(ActionEvent evt)
 	{
-		String command = e.getActionCommand();
-		// need command forl sellect file and directory paul fix
-		if (command == "Select")
+		String cmd = evt.getActionCommand();
+		System.out.println(" here we are ep  " + cmd);
+		HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);
+		String command = cmdmap.get("command");
+		if (command.equalsIgnoreCase("Select"))
 		{
 			JFileChooser fc = new JFileChooser();
 			fc.setDialogTitle("Specify a file to save");
 			String bufilename = selectedfile.getText();
 			File file = new File(bufilename);
 			fc.setCurrentDirectory(file.getParentFile());
-
 			FileNameExtensionFilter filter = new FileNameExtensionFilter(
 					"Backup", "xml", "XML");
 			fc.setFileFilter(filter);
-			
 			fc.setSelectedFile(file);
 			int returnVal = fc.showSaveDialog(this);
-
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
 				File fileToSave = fc.getSelectedFile();
@@ -155,7 +154,7 @@ public class exportBackupPanel extends jswVerticalPanel
 			{
 				System.out.println("Open command cancelled by user.");
 			}
-		} else if (command == "BackUp")
+		} else if (command.equalsIgnoreCase("BackUp"))
 		{
 
 			Vector<String> attkeys = new Vector<String>();
@@ -186,10 +185,17 @@ public class exportBackupPanel extends jswVerticalPanel
 			exportresult.setVisible(true);
 			exportresult.repaint();
 			countlabel.setVisible(true);
-		} else
+		} else if (command.equalsIgnoreCase("optionselected"))
 		{
-			System.out.println(" not found command " + command);
+			exporttypebox.repaint();
+			mcdb.topgui.refreshView();
 		}
+		else
+		{
+			System.out.println(" export panel not found command " + command);
+		}
+		refresh();
+		this.repaint();
 	}
 
 	public int backupXML(Vector<mcContact> outlist, String exportfilename)
@@ -206,14 +212,17 @@ public class exportBackupPanel extends jswVerticalPanel
 			printWriter.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 			printWriter.println(
 					"<?xml-stylesheet type='text/xsl' href='./Stylesheets/ContactsStyler.xsl' ?>");
-			printWriter.println("<contacts>" + "\n");
+			printWriter.println("<contacts source=\"mycontacts\" version=\"" + mcdb.version+"\" >\n");
 			for (mcContact acontact : outlist)
 			{
 				k++;
-				acontact.getTID();
+				String tid = acontact.getTID();
+				if(acontact.getCID() == 19)
+				{
+					System.out.println ( "found "+ tid);
+				}
 				String nameatt = acontact.toXML(attkeylist);
 				if (nameatt != null) printWriter.println(nameatt);
-
 				addTags(taglist, acontact);
 			}
 

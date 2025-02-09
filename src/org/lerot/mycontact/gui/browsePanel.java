@@ -425,9 +425,15 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 			selcontact.fillContact();
 			jswTable contactattributes = makeAttributePanel(selcontact, "B");
 			if (contactattributes != null) browsepanel.add( " FILLW ",contactattributes);
-			mcContacts relationlist = makeLinkToList(selcontact, "related");
-			mcContacts memberoflist = makeLinkToList(selcontact, "memberof");
-			mcContacts hasmemberslist = makeLinkToList(selcontact, "hasmember");
+		//	mcContacts relationlist = makeLinkToList(selcontact, "related");
+		//	mcContacts memberoflist = makeLinkToList(selcontact, "memberof");
+		//	mcContacts hasmemberslist = makeLinkToList(selcontact, "hasmember");
+
+			mcAttributes relationlist = selcontact.selectLinkToAttributes("related");
+			mcAttributes memberoflist = selcontact.selectLinkToAttributes( "memberof");
+			mcAttributes hasmemberslist = selcontact.selectLinkToAttributes( "hasmember");
+
+
 			if (relationlist != null)
 			{
 				jswVerticalPanel arelationslist = makeLinkToPanel(relationlist,	"related", "Related to");
@@ -558,7 +564,7 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 		return frame;
 	}
 
-	private mcContacts makeLinkedFromList(mcContact selcontact, String selector)
+	/*private mcContacts makeLinkedFromList(mcContact selcontact, String selector)
 	{
 		mcContacts list = new mcContacts();
 		if (selcontact != null)
@@ -577,9 +583,9 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 		{
 			return null;
 		}
-	}
+	}*/
 
-	private jswVerticalPanel makeLinkedFromPanel(mcContact selcontact,
+/*	private jswVerticalPanel makeLinkedFromPanel(mcContact selcontact,
 			mcContacts list, String title)
 	{
 
@@ -625,11 +631,10 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 		{
 			return null;
 		}
-	}
+	}*/
 
-	private mcContacts makeLinkToList(mcContact selcontact, String selector)
+/*	private mcContacts xmakeLinkToList(mcContact selcontact, String selector)
 	{
-
 		mcContacts list = new mcContacts();
 		int row = 0;
 		if (selcontact != null)
@@ -641,16 +646,15 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 			{
 				mcAttribute anattribute = anentry.getValue();
 				String value = anattribute.getValue();
-				// System.out.println(" found " + anattribute.getRoot() + " "
-				// + anattribute.getQualifier() + " " + value);
 				mcContact linkedcontact = mcdb.selbox.FindbyIDstr(value);
 				if (linkedcontact != null)
 				{
 					list.put(linkedcontact);
 					row++;
+				}else {
+					System.out.println(" not found " + anattribute.toString());
 				}
 			}
-
 			if (row == 0)
 			{
 				return null;
@@ -663,9 +667,10 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 			return null;
 		}
 
-	}
+	}*/
 
-	private jswVerticalPanel makeLinkToPanel(mcContacts contacts,String selector, String title)
+
+	private jswVerticalPanel makeLinkToPanel(mcAttributes contacts,String selector, String title)
 	{
 		jswVerticalPanel vpanel = new jswVerticalPanel("LinkTo",false,false);
 		if (title != null)
@@ -675,13 +680,13 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 		}
 		jswTable memberpanel = new jswTable(this,selector, linktablestyles);
 		int row = 0;
-		for (Entry<String, mcContact> anentry : contacts.entrySet())
+		for (Entry<String, mcAttribute> anentry : contacts.entrySet())
 		{
-			mcContact linkedcontact = anentry.getValue();
-			memberpanel.addCell(linkedcontact.getName(), row, 0);
+			mcAttribute linkedcontact = anentry.getValue();
+			memberpanel.addCell(linkedcontact.getTag(), row, 0);
 			jswButton viewcontact = new jswButton(this, "VIEW",
-					"VIEW:" + linkedcontact.getIDstr());
-			memberpanel.addCell("", row, 1);
+					"VIEW:" + linkedcontact.getValue());
+			memberpanel.addCell(linkedcontact.getQualifier(), row, 1);
 			memberpanel.addCell(" ", row, 2);
 			memberpanel.addCell(viewcontact, row, 3);
 			row++;
@@ -697,7 +702,6 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 		{
 			jswScrollPane scrollableTextArea = new jswScrollPane(memberpanel,
 					-10, -10);
-			// JScrollPane scrollableTextArea = new JScrollPane(memberpanel);
 			scrollableTextArea.setName("resultscroll");
 			scrollableTextArea.setHorizontalScrollBarPolicy(
 					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -710,31 +714,27 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 
 	}
 
-	private jswTable makeLinktotable(mcContacts hasmemberslist)
+/*	private jswTable makeLinktotable(mcContacts hasmemberslist)
 	{
 		// TODO Auto-generated method stub
 		return null;
-	}
+	}*/
 
-	private jswTable makeLinkToTable(mcContacts contacts, String selector)
+	private jswTable makeLinkToTable(mcAttributes contacts, String selector)
 	{
-
 		jswTable memberpanel = new jswTable(this,selector, linktablestyles);
-
 		int row = 0;
-		for (Entry<String, mcContact> anentry : contacts.entrySet())
+		for (Entry<String, mcAttribute> anentry : contacts.entrySet())
 		{
-			mcContact linkedcontact = anentry.getValue();
-			memberpanel.addCell(linkedcontact.getName(), row, 0);
+			mcAttribute linkedcontact = anentry.getValue();
+			memberpanel.addCell(linkedcontact.getTag(), row, 0);
 			jswButton viewcontact = new jswButton(this, "VIEW",
-					"VIEW:" + linkedcontact.getIDstr());
+					"VIEW:" + linkedcontact.getQualifier());
 			memberpanel.addCell("", row, 1);
 			memberpanel.addCell(viewcontact, row, 2);
 			row++;
 		}
-
 		return memberpanel;
-
 	}
 
 	private void printlabel(String address)

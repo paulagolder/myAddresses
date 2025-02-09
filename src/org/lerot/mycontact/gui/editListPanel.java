@@ -159,7 +159,10 @@ public class editListPanel extends jswVerticalPanel implements ActionListener
 		mctagList tags = new mctagList();
 		tags.reloadTags();
 		taglistbox.setList(tags.getTaglist());
-		displaylist(tags.get(0));
+		if(tags.size()>0)
+		{
+			displaylist(tags.get(0));
+		}
 		this.repaint();
 		mcdb.topgui.mainpanel.repaint();
 		mcdb.topgui.getContentPane().validate();

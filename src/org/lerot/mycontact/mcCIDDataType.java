@@ -22,7 +22,6 @@ public class mcCIDDataType extends mcDataType
 		@Override
 		public String getFormattedValue(String value, String fmt)
 		{
-
 			return value;
 		}
 

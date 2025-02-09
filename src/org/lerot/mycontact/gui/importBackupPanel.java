@@ -7,10 +7,9 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
@@ -43,8 +42,8 @@ public class importBackupPanel extends jswVerticalPanel
 	public importBackupPanel()
 	{
         super("backup",false,false);
-
         importtested = false;
+		addActionListener(this);
 		showImportBackupPanel();
 	}
 
@@ -63,7 +62,7 @@ public class importBackupPanel extends jswVerticalPanel
 		String bufilename = mcdb.topgui.budir + "/contacts_bu_"
 				+ mcDateDataType.getNow("yyyyMMdd") + ".xml";
 
-		selectedfile = new jswTextBox(this,bufilename);
+		selectedfile = new jswTextBox(this,bufilename,300);
 		selectedfile.setText(bufilename);
 		selectedfile.setEnabled(true);
 		// selectedfile.setSize(200,20);
@@ -84,8 +83,8 @@ public class importBackupPanel extends jswVerticalPanel
 		importbutton.setVisible(false);
 
 		this.add(importbar);
-		importerrors = new jswVerticalPanel("title",false,false);;
-		jswLabel imptrace = new jswLabel("");
+		importerrors = new jswVerticalPanel("title",false,false);
+        jswLabel imptrace = new jswLabel("");
 		importerrors.add(imptrace);
 		imptrace.setVisible(true);
 		imptrace.setText(" Starting Import ");
@@ -106,10 +105,13 @@ public class importBackupPanel extends jswVerticalPanel
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e)
+	public void actionPerformed(ActionEvent evt)
 	{
-		String command = e.getActionCommand();
-		if (command == "Select")
+		String cmd = evt.getActionCommand();
+		System.out.println(" here we are ep  " + cmd);
+		HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);
+		String command = cmdmap.get("command");
+		if (command.equalsIgnoreCase("Select"))
 		{
 			JFileChooser fc = new JFileChooser();
 			fc.setDialogTitle("Select a file to import");
@@ -145,7 +147,7 @@ public class importBackupPanel extends jswVerticalPanel
 				System.out.println("Open command cancelled by user.");
 			}
 
-		} else if (command == "Print Exceptions")
+		} else if (command.equalsIgnoreCase("Print Exceptions"))
 		{
 			JFileChooser fc = new JFileChooser();
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("text",
@@ -159,7 +161,7 @@ public class importBackupPanel extends jswVerticalPanel
 				PrintWriter writer;
 				try
 				{
-					writer = new PrintWriter(exportfile, "UTF-8");
+					writer = new PrintWriter(exportfile, StandardCharsets.UTF_8);
 					for (Entry<String, mcImportexception> except : exceptions
 							.entrySet())
 					{
@@ -168,14 +170,12 @@ public class importBackupPanel extends jswVerticalPanel
 								+ ",\"" + impex.getExample() + "\"");
 					}
 					writer.close();
-				} catch (FileNotFoundException
-						| UnsupportedEncodingException e1)
-				{
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		} else if (command == "Import File")
+				}  catch (IOException e)
+                {
+					e.printStackTrace();
+                }
+            }
+		} else if (command.equalsIgnoreCase("Import File"))
 		{
 			importerrors.removeAll();
 			importerrors.setVisible(true);
@@ -196,6 +196,7 @@ public class importBackupPanel extends jswVerticalPanel
 			this.repaint();
 
 			System.out.println("  import finished");
+           mcdb.selbox.getAllcontactlist().relinkcontacts();
 
 		} else
 			System.out.println(

@@ -62,16 +62,14 @@ public class mcImportXML extends mcImports
 				for (int i = 0; i < nl.getLength(); i++)
 				{
 					Element el = (Element) nl.item(i);
-					mcContact icontact = new mcContact();
-					icontact.loadXML(el, i);
-			//		System.out.println(" imported contact :" + icontact);
-					String ct = icontact.toXML(attkeylist);
-					//System.out.println(ct+"/n/n");
-					mcContact existingcontact = mcdb.selbox.getAllcontactlist().FindbyTID(icontact.getTID());
+					mcContact importedcontact = new mcContact();
+					importedcontact.loadXML(el, i);
+				//	String ct = icontact.toXML(attkeylist);
+					mcContact existingcontact = mcdb.selbox.getAllcontactlist().FindbyTID(importedcontact.getTID());
 					if (existingcontact == null)
 					{
-						System.out.println(" make new  contact :" + icontact);
-						mcContact newcontact = new mcContact(icontact);
+						System.out.println(" make new  contact :" + importedcontact);
+						mcContact newcontact = new mcContact(importedcontact);
 					
 						int cid = newcontact.insertNewContact();
 						newcontact.updateContact();
@@ -79,23 +77,23 @@ public class mcImportXML extends mcImports
 					} else
 					{
 	//		            System.out.println(" found "+existingcontact);
-						if (icontact.matches(existingcontact))
+						if (importedcontact.matches(existingcontact))
 						{
 	//						System.out.println(" ignoring contact :"
 	//						 +icontact+" no changes");
 						} else
 						{
 							System.out.println(" importing contact :"
-									 +icontact+" with changes");
+									 +importedcontact+" with changes");
 							if (!test)
 							{
 								int changes = existingcontact
-										.updateContact(icontact);
+										.updateContact(importedcontact);
 								 if(changes>0)
 								 {
 								 existingcontact.updateContact();
 								 System.out.println(
-											" updated contact  :" + icontact + " "+changes);
+											" updated contact  :" + importedcontact + " "+changes);
 								 changedobjects++;
 								 }
 							}

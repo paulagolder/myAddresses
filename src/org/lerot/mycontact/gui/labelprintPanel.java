@@ -181,7 +181,7 @@ public class labelprintPanel extends jswVerticalPanel implements ActionListener,
         int hashtagcontacts = topgui.templist.size();
         hashtagsource.setText("#TAGGED (" + hashtagcontacts + ")");
         System.out.println(" #tag contacts " + hashtagcontacts);
-        topgui.refreshView();
+       // topgui.refreshView();
         topgui.getContentPane().validate();
     }
 

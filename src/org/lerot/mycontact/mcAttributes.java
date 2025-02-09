@@ -167,7 +167,7 @@ public class mcAttributes extends mcDataObject
         attributelist.put(attkey, anattribute);
     }
 
-    void put(mcAttribute anattribute)
+    public void put(mcAttribute anattribute)
     {
         attributelist.put(anattribute.getKey(), anattribute);
     }

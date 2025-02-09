@@ -18,11 +18,8 @@ public class mctagList extends mcDataObject
 
 	public  void reloadTags()
 	{
-		
-		//System.out.println("reloading tags ");
 		Map<String, Integer> ustaglist = new HashMap<String, Integer>();
 		taglistcomparator comparator = new taglistcomparator(ustaglist);
-
 		setTaglist(new TreeMap<String, Integer>(comparator));
 		String query = " select * from attributeValues where root = 'tags'  ";
 		PreparedStatement st;
@@ -51,20 +48,14 @@ public class mctagList extends mcDataObject
 					}
 					k++;
 				}
-
 			}
 			st.close();
-
 			getTaglist().putAll(ustaglist);
-			//
-			// System.out.println(taglist);
 			datasource.disconnect();
-
 		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-
 	}
 
 	public  void renorm()
@@ -132,15 +123,12 @@ public class mctagList extends mcDataObject
 		} catch (SQLException e)
 		{
 			e.printStackTrace();
-
 		}
-
 	}
 	
 	public void duplicateall(String attkey, String oldtag, String newtag)
 	{
 		String query = " update attributeValues set value =( value || ? )  where root LIKE ? and value LIKE ? ";
-	//	System.out.println("query : " + query+" "+oldtag+" "+newtag);
 		PreparedStatement st;
 		try
 		{
@@ -157,7 +145,6 @@ public class mctagList extends mcDataObject
 		{
 			e.printStackTrace();
 		}
-		
 	}
 
 	public void delete(String attkey, String todelete)

@@ -1164,12 +1164,20 @@ public class mcContacts extends mcDataObject
 	
 	public  static mcContact retrieveContact(int id)
 	{
-		
-	
 				mcContact acontact = new mcContact();
                 acontact.setID(id);;
 				acontact.fillContact();
-					return acontact;
+				return acontact;
+	}
+
+	public void relinkcontacts()
+	{
+		for (Entry<String, mcContact> anentry : contactlist.entrySet())
+		{
+			mcContact acontact = anentry.getValue();
+			acontact.relinkcontact();
+		}
+
 	}
 	
 	public static mcContact retrieveContact(String strid)
