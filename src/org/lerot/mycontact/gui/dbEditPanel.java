@@ -220,7 +220,7 @@ public class dbEditPanel extends jswVerticalPanel implements ActionListener
 				resulttable.addCell(mychecks.get("No of Contacts"), row, 3);
 				resulttable.addCell(mychecks.get("Latest Update"), row, 4);
 				jswHorizontalPanel optionpanel = new jswHorizontalPanel();
-				options.addNewOption( "select", adbpath,false);
+				options.addNewOption( "select", adbpath,"select");
 				// options[row].setToolTipText(acontact.getIDstr());
 				//options[row].addActionListener(this);
 				//bg.add(options[row]);

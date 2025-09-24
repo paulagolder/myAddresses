@@ -54,19 +54,18 @@ public class exportBackupPanel extends jswVerticalPanel
 		jswHorizontalPanel filterbar = new jswHorizontalPanel();
 		optionset = new jswOptionset(this,"source", false, false);
 		allcontacts = optionset
-				.addNewOption("All Contacts " + mcdb.selbox.countAll(), false);
+				.addNewOption("All Contacts " + mcdb.selbox.countAll(), "allcontacts");
 		allcontacts.setTag("all");
 		allcontacts.setStyleAttribute("mywidth",300);
 		allcontacts.applyStyle();
 		browsecontacts = optionset.addNewOption(
-				"Browse Contacts " + mcdb.selbox.getBrowsecontactlist().size(),
-				false);
+				"Browse Contacts " + mcdb.selbox.getBrowsecontactlist().size(),"Browse");
 		browsecontacts.setTag("browse");
 		browsecontacts.setStyleAttribute("mywidth",300);
 		browsecontacts.applyStyle();
 		selectedcontacts = optionset.addNewOption(
 				"Selected Contacts " + mcdb.selbox.getSearchResultList().size(),
-				false);
+				"selected");
 		selectedcontacts.setTag("selected");
 		selectedcontacts.setStyleAttribute("mywidth",300);
 		selectedcontacts.applyStyle();
@@ -81,7 +80,7 @@ public class exportBackupPanel extends jswVerticalPanel
 		filebar.add(" LEFT ", selbutton);
 		String bufilename = mcdb.topgui.budir + "/contacts_bu_"
 				+ mcDateDataType.getNow("yyyyMMdd") + ".xml";
-		selectedfile = new jswTextBox(this,bufilename,300);
+		selectedfile = new jswTextBox(this,bufilename,300,"6789");
 		//selectedfile = new jswTextBox(this,bufilename);
 		selectedfile.setText(bufilename);
 		selectedfile.setEnabled(true);
@@ -122,8 +121,9 @@ public class exportBackupPanel extends jswVerticalPanel
 	{
 		String cmd = evt.getActionCommand();
 		System.out.println(" here we are ep  " + cmd);
-		HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);
-		String command = cmdmap.get("command");
+		//HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);
+		//String command = cmdmap.get("command");
+        String command= cmd;
 		if (command.equalsIgnoreCase("Select"))
 		{
 			JFileChooser fc = new JFileChooser();

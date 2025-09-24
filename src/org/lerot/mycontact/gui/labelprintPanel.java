@@ -54,12 +54,12 @@ public class labelprintPanel extends jswVerticalPanel implements ActionListener,
         jswHorizontalPanel filterbar = new jswHorizontalPanel("fiterbar", true, true);
         // selectedcontacts = new jswLabel("Selected Contacts");
         // selectedcontacts.setText("Selected contacts (" + nbrowsecontacts + ")");
-        selectedoption = labelsource.addNewOption("Selected contacts (" + nbrowsecontacts + ")", false);
+        selectedoption = labelsource.addNewOption("Selected contacts (" + nbrowsecontacts + ")", "selected");
         selectedoption.setTag("selecting");
         filterbar.add(" LEFT ", selectedoption);
         selectedoption.setStyleAttribute("width", 300);
         selectedoption.applyStyle();
-        hashtagsource = labelsource.addNewOption("temptag", false);
+        hashtagsource = labelsource.addNewOption("temptag");
         hashtagsource.setTag("hashtag");
         filterbar.add(" ", hashtagsource);
         hashtagsource.setStyleAttribute("mywidth", 300);
@@ -109,14 +109,18 @@ public class labelprintPanel extends jswVerticalPanel implements ActionListener,
     public void actionPerformed(ActionEvent evt)
     {
         String cmd = evt.getActionCommand().toUpperCase();
-        System.out.println(" here we are lp" + cmd);
-        HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);
-        String action = cmdmap.get("COMMAND").toUpperCase();
-        System.out.println("action " + action);
-        if (action.equals("OPTIONSELECTED"))
+        System.out.println(" here we are lp : " + cmd);
+       // HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);
+        String action=cmd;
+       // if( cmdmap.get("COMMAND") == null) action = cmd;
+        //String action = cmdmap.get("COMMAND").toUpperCase();
+     //   System.out.println("action : " + action);
+        if (action.startsWith("SOURCE:"))
         {
-            String sourcetag = cmdmap.get("VALUE");
-            if (sourcetag.equalsIgnoreCase("hashtag"))
+            jswOptionset sourcelist = (jswOptionset)evt.getSource();
+            String sourcetag  = action;
+          //  String sourcetag = cmdmap.get("VALUE");
+            if (sourcetag.equalsIgnoreCase("source:hashtag"))
             {
                 System.out.println("hashtag selected ");
                 sellist = topgui.templist.toContactList();
@@ -124,7 +128,9 @@ public class labelprintPanel extends jswVerticalPanel implements ActionListener,
             {
                 sellist = mcdb.selbox.getBrowsecontactlist();
                 System.out.println("selection selected ");
+                if(sellist == null) sellist =  mcdb.selbox.getAllcontactlist();
             }
+            System.out.println("contacts selected :"+sellist.size());
         } else if (action.equals("SELECT"))
         {
             JFileChooser fc = new JFileChooser(mcdb.letterfolder);
@@ -176,6 +182,7 @@ public class labelprintPanel extends jswVerticalPanel implements ActionListener,
         mcContacts slist = mcdb.selbox.getBrowsecontactlist();
         int nbrowsecontacts = mcdb.selbox.getBrowsecontactlist().size();
         String searchterm = mcdb.selbox.getSearchterm();
+        if(searchterm == null) searchterm="ALL";
         selectedoption.setText(searchterm + " (" + nbrowsecontacts + ")");
         System.out.println(" selected contacts " + nbrowsecontacts);
         int hashtagcontacts = topgui.templist.size();

@@ -30,19 +30,20 @@ public class manageTagsPanel extends jswVerticalPanel implements ActionListener
 	{
 		String cmd = evt.getActionCommand().toUpperCase();
 		System.out.println("tags panel action " + cmd);
-		HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);
-		String action = cmdmap.get("COMMAND").toUpperCase();
+		//HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);
+		//String action = cmdmap.get("COMMAND").toUpperCase();
+        String action = cmd;
 		System.out.println("action " + action);
 		int row = 0;
 		if (action.equals("ACTION"))
 		{
-             if(cmdmap.get("HANDLERNAME").equalsIgnoreCase("JCHECKBOX"))
+          /*   if(cmdmap.get("HANDLERNAME").equalsIgnoreCase("JCHECKBOX"))
 			{
 				String nrow = cmdmap.get("ROW");
 				String ncol= cmdmap.get("COLUMN");
                 checkboxes[row].setSelected(true);
-			}
-
+			}*/
+            System.out.println("tags panel action OH DEAR ");
 		}
 		if (action.equals("MERGE"))
 		{

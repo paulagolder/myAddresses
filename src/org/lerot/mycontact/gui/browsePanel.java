@@ -53,8 +53,9 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 
 		String cmd = evt.getActionCommand();
 		System.out.println(" here we are bp " + cmd);
-		HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);
-		String action= cmdmap.get("command");
+		//HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);
+	//	String action= cmdmap.get("command");
+        String action= cmd;
 		if (action.startsWith("VCARD"))
 		{
 			System.out.println(" export vcard " + selcontact.getTID());
@@ -762,8 +763,8 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 			File afile = new File(filepath);
 			jswVerticalPanel panel = new jswVerticalPanel("options",false,false);
 			jswOptionset options = new jswOptionset(this,"options",false,false);
-			options.addNewOption("OK",true);
-			options.addNewOption("Cancell",true);
+			options.addNewOption("OK");
+			options.addNewOption("Cancel");
 
 			jswTextArea addressarea = new jswTextArea("address", true);
 			addressarea.setText(address);

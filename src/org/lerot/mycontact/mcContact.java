@@ -160,6 +160,23 @@ public class mcContact extends mcDataObject implements Comparable<mcContact>
 
     }
 
+
+    public boolean containsMatchingAttribute(mcAttribute  anattribute)
+    {
+       String inroot = anattribute.getRoot();
+       String invalue = anattribute.getValue();
+        for (Entry<String, mcAttribute> anat : attributes.entrySet())
+        {
+            mcAttribute testattribute = anat.getValue();
+            if (testattribute.getRoot().equalsIgnoreCase(inroot) && testattribute.containsValue(invalue))
+            {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
     public mcAttribute createAttribute(String attroot, String attqual, boolean canreplace)
     {
         String root = attroot;
@@ -766,10 +783,11 @@ public class mcContact extends mcDataObject implements Comparable<mcContact>
             mcAttribute aniattribute = anentry.getValue();
             if (aniattribute != null)
             {
-                if (!containsValue(aniattribute.getValue()))
+                if (!this.containsMatchingAttribute(aniattribute))
                 {
                     updateAttributebyKey(aniattribute.getKey(),
                             aniattribute.getValue());
+                    unmatched++;
                 }
             }
         }

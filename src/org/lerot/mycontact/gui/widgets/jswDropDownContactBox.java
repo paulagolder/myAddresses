@@ -157,7 +157,7 @@ public class jswDropDownContactBox extends jswPanel implements ActionListener
             return null;
     }
 
-    @Override
+
     public boolean isSelected()
     {
         mcContact selcon = getSelectedValue();

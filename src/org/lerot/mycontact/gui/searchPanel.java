@@ -30,9 +30,9 @@ public class searchPanel extends jswVerticalPanel implements ActionListener
 
         String cmd = evt.getActionCommand();
         System.out.println(" here we are sp " + cmd);
-        HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);
-        String action = cmdmap.get("command").toUpperCase();
-
+    //    HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);
+      //  String action = cmdmap.get("command").toUpperCase();
+String action = cmd;
         if (action.startsWith("SEARCHATTRIBUTES"))
         {
             String searchterm = searchfield.getText();

@@ -6,6 +6,7 @@ import org.lerot.mywidgets.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+//import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Vector;
 
@@ -51,9 +52,17 @@ public class mergeContactPanel extends jswVerticalPanel implements
 	@Override
 	public void actionPerformed(ActionEvent evt)
 	{
-		String action = evt.getActionCommand().toUpperCase();
+		String cmd = evt.getActionCommand().toUpperCase();
 		// TreeSet<mcContact> found = new TreeSet<mcContact>();
-		System.out.println("action " + action);
+		//System.out.println("action " + action);
+
+
+       // String cmd = evt.getActionCommand();
+        System.out.println(" here we are mcp " + cmd);
+       // HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);
+       // String action= cmdmap.get("COMMAND");
+      String  action = cmd;
+
 		if (action.equals("MERGE"))
 		{
 			mergefromlist = new Vector<mcContact>();
@@ -61,7 +70,7 @@ public class mergeContactPanel extends jswVerticalPanel implements
 			int row = 0;
 			for (mcContact acontact : found.makeOrderedContactsVector())
 			{
-				if (options.isSelected(acontact.getIDstr()))
+				if (options.isSelected(row))
 				{
 					System.out.println("merge to " + acontact);
 					mergeto = acontact;
@@ -79,7 +88,11 @@ public class mergeContactPanel extends jswVerticalPanel implements
 					mergeto.mergeContact(acontact);
 					System.out.println("deleteing" + acontact);
 					mcdb.selbox.remove(acontact);
+                    acontact.deleteContact();
 				}
+                System.out.println( mergeto.toString());
+                mergeto.getAttributes().printList("++");
+                mergeto.updateContact();
 			}
 			System.out.println("merging");
 		} else
@@ -150,9 +163,9 @@ public class mergeContactPanel extends jswVerticalPanel implements
 				resulttable.addCell(atttable, row, 2);
 				jswHorizontalPanel optionpanel = new jswHorizontalPanel();
 				checkboxlist[row] = new jswCheckbox(this,"from");
-				jswOption anoption = options.addNewOption("to", false);
+				jswOption anoption = options.addNewOption("to");
 				anoption.setToolTipText(acontact.getIDstr());
-				anoption.addActionListener(this);
+				//anoption.addActionListener(this);
 				//bg.add(options[row]);
 				optionpanel.add(checkboxlist[row]);
 				optionpanel.add(anoption);

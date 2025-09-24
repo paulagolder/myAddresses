@@ -20,7 +20,7 @@ public class selectorBox extends jswVerticalPanel
     private final jswHorizontalPanel filterpanel;
     public mcContacts browsecontactlist;
     public mcContacts searchresultlist;
-    mcImports imported;
+   // mcImports imported;
     jswDropDownContactBox contactselectbox;
     private final jswTextBox filterbox;
     private final jswDropDownBox tagselectbox;
@@ -61,7 +61,7 @@ public class selectorBox extends jswVerticalPanel
         jswButton previous = new jswButton(this, "Previous");
         selectbox.add(" LEFT ", previous);
         filterpanel= new jswHorizontalPanel("filterpanel",false,false);
-        filterbox = new jswTextBox(this, "stuff",100);
+        filterbox = new jswTextBox(this, "stuff",100,"1234");
         filterbox.setEnabled(true);
         filterbox.addFocusListener(this);
         filterbox.addKeyListener(this);
@@ -93,14 +93,15 @@ public class selectorBox extends jswVerticalPanel
         String cmd = evt.getActionCommand().toUpperCase();
 		System.out.println(" sb:"+ cmd);
         String action = "";
-        HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);
-        action = cmdmap.get("COMMAND");
+      //  HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);
+        //action = cmdmap.get("COMMAND");
+        action = cmd;
         if (action == null) return;
         if (action.equals("BROWSESELECT"))
         {
             setBrowseFilter(tagselectbox);
             browsecontactlist = searchTag(browsefilter);
-            searchterm = cmdmap.get("VALUE");
+          //  searchterm = cmdmap.get("VALUE");
             selcontact = null;
             update();
         } else if (action.equalsIgnoreCase("TEMPTAG"))
@@ -515,7 +516,7 @@ public class selectorBox extends jswVerticalPanel
         tagselectbox.addItem("selection");
         tagselectbox.addItem("friend");
         tagselectbox.addList(taglist.getTaglist());
-        tagselectbox.addActionListener(this);
+        tagselectbox.addActionListener(this,"2345");
 
     }
 

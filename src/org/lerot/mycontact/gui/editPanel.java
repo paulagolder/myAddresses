@@ -113,9 +113,10 @@ public class editPanel extends jswVerticalPanel implements ActionListener
     {
         mcContact selcontact = mcdb.selbox.getSelcontact();
         String cmd = evt.getActionCommand();
-        System.out.println(" action ep" + cmd);
-        HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);
-        String action = cmdmap.get("command");
+        System.out.println(" action ep: " + cmd);
+       // HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);
+       // String action = cmdmap.get("command");
+        String action= cmd;
         if (action != null)
         {
             action = action.toUpperCase();
@@ -135,10 +136,11 @@ public class editPanel extends jswVerticalPanel implements ActionListener
 
             } else if (action.equalsIgnoreCase("COMBOBOXCHANGED"))
             {
-                String value = cmdmap.get("value");
+                String value= "help";
+               // String value = cmdmap.get("value");
                 linkselect.removeActionListener(this);
                 linkselect.setSelected(value);
-                linkselect.addActionListener(this);
+                linkselect.addActionListener(this,"changebox");
             } else if (action.startsWith("NEWCONTACT"))
             {
                 selcontact = mcContacts.createNewContact();
@@ -740,7 +742,7 @@ public class editPanel extends jswVerticalPanel implements ActionListener
                 memberpanel.addCell(alabel, row, 0);
                 jswLabel aqlabel = new jswLabel(qualifier);
                 memberpanel.addCell(aqlabel, row, 1);
-                atteditbox = new jswTextBox(this, "qualifier", 100);
+                atteditbox = new jswTextBox(this, "qualifier", 100,"");
                 atteditbox.setText(qualifier);
                 atteditbox.setEnabled(true);
                 memberpanel.addCell(atteditbox, " FILLW ", row, 1);

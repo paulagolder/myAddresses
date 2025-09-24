@@ -43,7 +43,7 @@ public class importBackupPanel extends jswVerticalPanel
 	{
         super("backup",false,false);
         importtested = false;
-		addActionListener(this);
+		//addActionListener(this);
 		showImportBackupPanel();
 	}
 
@@ -62,7 +62,7 @@ public class importBackupPanel extends jswVerticalPanel
 		String bufilename = mcdb.topgui.budir + "/contacts_bu_"
 				+ mcDateDataType.getNow("yyyyMMdd") + ".xml";
 
-		selectedfile = new jswTextBox(this,bufilename,300);
+		selectedfile = new jswTextBox(this,bufilename,300,"4567");
 		selectedfile.setText(bufilename);
 		selectedfile.setEnabled(true);
 		// selectedfile.setSize(200,20);
@@ -109,8 +109,8 @@ public class importBackupPanel extends jswVerticalPanel
 	{
 		String cmd = evt.getActionCommand();
 		System.out.println(" here we are ep  " + cmd);
-		HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);
-		String command = cmdmap.get("command");
+	//	HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);
+		String command = cmd;
 		if (command.equalsIgnoreCase("Select"))
 		{
 			JFileChooser fc = new JFileChooser();

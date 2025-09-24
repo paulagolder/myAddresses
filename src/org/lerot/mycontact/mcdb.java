@@ -50,7 +50,7 @@ public class mcdb extends JFrame implements ActionListener
     public static Map<String, Map<String, String>> labeltemplates = null;
     public static mcDataTypes alldatatypes;
     public static mcAttributeTypes myattributetypes;
-    public static String version = "31.0";
+    public static String version = "40.0";
     private final Dimension defdimension;
     public mcDataSource currentcon;
     public browsePanel abrowsepanel;
@@ -154,7 +154,7 @@ public class mcdb extends JFrame implements ActionListener
         buttonset.addNewButton("Search");
         buttonset.addNewButton("Edit");
         buttonset.addNewButton("Tools");
-        buttonset.setSelected("Browse");
+        buttonset.setButtonSelection("Browse");
         optionBar.add(" RIGHT ", buttonset);
         optionBar.setBorder(jswStyle.makeLineBorder(Color.pink, 1));
         bigpanel.add(" FILLW ", optionBar);
@@ -383,7 +383,7 @@ public class mcdb extends JFrame implements ActionListener
     public void refreshView()
     {
 
-        buttonset.setSelected(mode);
+     //   buttonset.setButtonSelection(mode);
         if (mode.equals("EDIT"))
         {
             selbox.setVisible(true);
