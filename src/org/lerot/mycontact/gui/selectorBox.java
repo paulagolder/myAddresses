@@ -123,7 +123,7 @@ public class selectorBox extends jswVerticalPanel
         {
             selcontact = contactselectbox.setNextValue();
             mcdb.topgui.aneditpanel.clearEdit();
-        } else if (action.equalsIgnoreCase("CONTACTSELECTED"))
+        } else if (action.startsWith("CONTACTSELECTED:"))
         {
             selcontact = contactselectbox.getSelectedValue();
             System.out.println(selcontact);
@@ -516,7 +516,7 @@ public class selectorBox extends jswVerticalPanel
         tagselectbox.addItem("selection");
         tagselectbox.addItem("friend");
         tagselectbox.addList(taglist.getTaglist());
-        tagselectbox.addActionListener(this,"2345");
+        tagselectbox.addActionListener(this,"BROWSESELECT");
 
     }
 

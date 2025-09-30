@@ -44,7 +44,6 @@ public class mcLetter
 	private Map<String, String> map = new HashMap<String, String>();
 	private TextDocument odf;
 	private static Vector<String> templates;
-
 	private String outputFileName;
 	String templateFileName;
 

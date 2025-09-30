@@ -28,12 +28,8 @@ public class manageTagsPanel extends jswVerticalPanel implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent evt)
 	{
-		String cmd = evt.getActionCommand().toUpperCase();
-		System.out.println("tags panel action " + cmd);
-		//HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);
-		//String action = cmdmap.get("COMMAND").toUpperCase();
-        String action = cmd;
-		System.out.println("action " + action);
+		String action = evt.getActionCommand().toUpperCase();
+		System.out.println("tags panel action " + action);
 		int row = 0;
 		if (action.equals("ACTION"))
 		{
@@ -110,13 +106,15 @@ public class manageTagsPanel extends jswVerticalPanel implements ActionListener
 						if (checkbox != null && checkbox.isSelected())
 						{
 							String todelete = checkbox.getTag();
-							(new mctagList()).delete("tags", todelete);
+                            tagList.delete("tags",todelete);
+							//(new mctagList()).delete("tags", todelete);
 
 						}
 					}
 				}
 			}
 			System.out.println("deleting");
+
 		} else if (action.equals("NORM"))
 		{
 			tagList.renorm();
@@ -241,6 +239,7 @@ public class manageTagsPanel extends jswVerticalPanel implements ActionListener
 		scrollableTextArea.setVerticalScrollBarPolicy(
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		this.add(" FILLH FILLW ", scrollableTextArea);
+
 		atttable.setVisible(true);
 		buildTagPanel();
         atttable.repaint();

@@ -44,7 +44,7 @@ public class editListPanel extends jswVerticalPanel implements ActionListener
 		mctagList tags = new mctagList();
 		tags.reloadTags();
 		progressbar.add(" FILLW ", taglistbox);
-		atttable = new jswTable(this,"members", mcdb.getTableStyles());
+		atttable = new jswTable(this,"members", makeTagsTableStyles());
 		atttable.setBackground(Color.lightGray);
 		atttable.setBorder(BorderFactory.createLineBorder(Color.blue));
 		taglistbox.setList(tags.getTaglist());
@@ -54,7 +54,7 @@ public class editListPanel extends jswVerticalPanel implements ActionListener
 		scrollpane.setName("resultscroll");
 		scrollpane
 				.setBorder(BorderFactory.createLineBorder(Color.green));
-		this.add(" FILLH ", scrollpane);
+		this.add(" FILLH FILLW ", scrollpane);
 		//scrollableTextArea.setMaximumSize(new Dimension(600, 200));
 		atttable.setVisible(true);
 		scrollpane.setVisible(true);
@@ -64,6 +64,62 @@ public class editListPanel extends jswVerticalPanel implements ActionListener
 
 	}
 
+    private jswStyles makeTagsTableStyles()
+    {
+        jswStyles tablestyles = mcdb.getTableStyles();
+
+        jswStyle tablestyle = tablestyles.makeStyle("table");
+        tablestyle.putAttribute("backgroundColor", "White");
+        tablestyle.putAttribute("foregroundColor", "Green");
+        tablestyle.putAttribute("borderWidth", "2");
+        tablestyle.putAttribute("borderColor", "blue");
+
+        jswStyle cellstyle = tablestyles.makeStyle("cell");
+        cellstyle.putAttribute("backgroundColor", "#C0C0C0");
+        cellstyle.putAttribute("foregroundColor", "Blue");
+        cellstyle.putAttribute("borderWidth", "1");
+        cellstyle.putAttribute("borderColor", "white");
+        cellstyle.setHorizontalAlign("LEFT");
+        cellstyle.putAttribute("fontsize", "14");
+
+        jswStyle cellcstyle = tablestyles.makeStyle("cellcontent");
+        cellcstyle.putAttribute("backgroundColor", "transparent");
+        cellcstyle.putAttribute("foregroundColor", "Red");
+        cellcstyle.setHorizontalAlign("LEFT");
+        cellcstyle.putAttribute("fontsize", "11");
+
+        jswStyle col0style = tablestyles.makeStyle("col_0");
+        col0style.putAttribute("fontStyle", Font.BOLD);
+        col0style.setHorizontalAlign("RIGHT");
+       // col0style.putAttribute("minwidth", "true");
+        col0style.putAttribute("width", 100);
+
+        jswStyle col1style = tablestyles.makeStyle("col_1");
+        col0style.putAttribute("minwidth", "true");
+        col1style.putAttribute("horizontalAlignment", "LEFT");
+
+        jswStyle col2style = tablestyles.makeStyle("col_2");
+        col2style.putAttribute("horizontalAlignment", "RIGHT");
+        col2style.putAttribute("minwidth", "true");
+
+        jswStyle col3style = tablestyles.makeStyle("col_3");
+        col3style.putAttribute("FILLW", "true");
+
+        jswStyle col4style = tablestyles.makeStyle("col_4");
+        col4style.putAttribute("fontStyle", Font.BOLD);
+        col4style.putAttribute("minwidth", "true");
+        col4style.putAttribute("width", 100);
+
+        jswStyle col5style = tablestyles.makeStyle("col_5");
+        col5style.putAttribute("horizontalAlignment", "RIGHT");
+        col5style.putAttribute("minwidth", "true");
+
+        jswStyle col6style = tablestyles.makeStyle("col_6");
+        col6style.putAttribute("horizontalAlignment", "RIGHT");
+        col6style.putAttribute("minwidth", "true");
+
+        return tablestyles;
+    }
 	@Override
 	public void actionPerformed(ActionEvent evt)
 	{

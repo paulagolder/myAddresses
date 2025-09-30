@@ -27,13 +27,11 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 	private static jswStyles linktablestyles;
 	mcContact selcontact;
 	private String vcarddirectory = "";
-	private int editid = 0;
-	private jswDropDownBox statuseditbox;
-	private jswTextBox dateeditbox;
-	private jswTextBox subjecteditbox;
-	Color correspondancepanelcolor = new Color(200,220,200);
 
-	public browsePanel()
+
+    private Vector<mcCorrespondance> letters;
+
+    public browsePanel()
 	{
         super("browse",false,false);
 		this.setTrace(true);
@@ -69,10 +67,6 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 			mcdb.selbox.contactselectbox.contactddbox.setSelectedItem(selcon);
 			// mcdb.selbox.setSelcontact(selcon); // paul fiddling here
 			mcdb.topgui.refreshView();
-		} else if (action.startsWith("MAKENOTE"))
-
-		{
-			printNote(selcontact);
 		} else if (action.startsWith("USE:"))
 		{
 			System.out.println(" use address " + selcontact.getTID());
@@ -153,80 +147,6 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 			String info = selatt.getValue();
 			TextTransfer textTransfer = new TextTransfer();
 			textTransfer.setClipboardContents(info);
-		} else if (action.startsWith("VIEWLETTER:"))
-		{
-			int lettkey = Integer.parseInt(action.substring(11));
-			mcCorrespondance aletter = new mcCorrespondance(lettkey);
-			aletter.getLetter(lettkey);
-
-			System.out.println(aletter.toString());
-			if (!Desktop.isDesktopSupported())
-			{
-				System.out.println("no desktop");
-			} else
-			{
-				File letter = new File(mcdb.docsfolder + "/"
-						+ selcontact.getID() + "/" + aletter.getPath());
-				boolean exists = letter.exists();
-				if (!exists)
-				{
-					letter = new File(aletter.getPath());
-					exists = letter.exists();
-				}
-				if (exists)
-				{
-					try
-					{
-						Desktop.getDesktop().open(letter);
-					} catch (IOException e)
-					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				} else
-					System.out.println(
-							"file does not exist:" + letter.toString());
-
-			}
-
-		} else if (action.startsWith("DELETEREF:"))
-		{
-			int lettkey = Integer.parseInt(action.substring(10));
-			mcCorrespondance aletter = new mcCorrespondance(lettkey);
-			aletter.doDelete("correspondance",
-					" correspondanceid = " + lettkey);
-			mcdb.topgui.refreshView();
-
-		} else if (action.startsWith("xxEDITREF:"))
-		{
-			int lettkey = Integer.parseInt(action.substring(8));
-			mcCorrespondance aletter = new mcCorrespondance(lettkey);
-			mcdb.topgui.refreshView();
-
-		} else if (action.startsWith("EDITLETTER:"))
-		{
-			int lettkey = Integer.parseInt(action.substring(11));
-			editid = lettkey;
-			mcdb.topgui.refreshView();
-
-		} else if (action.startsWith("CANCELEDIT:"))
-		{
-			int lettkey = Integer.parseInt(action.substring(11));
-			mcCorrespondance aletter = new mcCorrespondance(lettkey);
-			editid = 0;
-			mcdb.topgui.refreshView();
-
-		} else if (action.startsWith("SAVEEDIT:"))
-		{
-			int lettkey = Integer.parseInt(action.substring(9));
-			mcCorrespondance aletter = new mcCorrespondance(lettkey);
-			aletter.getLetter(lettkey);
-			aletter.setStatus(statuseditbox.getSelectedValue());
-			aletter.setSubject(subjecteditbox.getText());
-			aletter.setDate(dateeditbox.getText());
-			aletter.saveLetter();
-			editid = 0;
-			mcdb.topgui.refreshView();
 		} else
 		{
 			System.out
@@ -471,204 +391,14 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 			}
 			jswLabel correspondancelabel = new jswLabel("Correspondance");
 			browsepanel.add("  ", correspondancelabel);
-			jswVerticalPanel correspondance = makeCorrespondancePanel(selcontact, "letters");
-			browsepanel.add(" FILLH FILLW  ", correspondance);
-			jswHorizontalPanel bottom = new jswHorizontalPanel("fred", false);
-			bottom.setName("bottom");
-			// bottom.setTag("trace");
-			jswDropPane correspondancesent = new jswDropPane("sent");
-			bottom.add("  FILLW ", correspondancesent);
-			jswButton makenote = new jswButton(this, "note", "MAKENOTE");
-			bottom.add(" WIDTH=100 ", makenote);
-			jswDropPane correspondancereceived = new jswDropPane("received");
-			bottom.add("  FILLW ", correspondancereceived);
-			correspondancereceived.setBorder(jswStyle.makeLineBorder(Color.YELLOW, 3));
-			makenote.setBorder(jswStyle.makeLineBorder(Color.RED, 3));
-			correspondancesent.setBorder(jswStyle.makeLineBorder(Color.GREEN, 3));
-			browsepanel.add(" MAXHEIGHT=100 FILLW ", bottom);
+
+			jswVerticalPanel correspondance = new correspondancePanel(selcontact, "letters");
+           correspondance.setPreferredSize(new Dimension(500,500));
+            this.add(" FILLH FILLW ", correspondance);
 		}
 
 	}
 
-	private jswVerticalPanel makeCorrespondancePanel(mcContact selcontact,
-			String title)
-	{
-		jswStyles cstyles = StylesMakeCorrespondence();
-		jswVerticalPanel frame = new jswVerticalPanel("correspondance panel",
-				false,false);
-		jswTable letterpanel = new jswTable(this,"correspondance table", cstyles);
-		frame.add("  ", letterpanel);
-		//frame.setStyleAttribute("backgroundcolor", "red");
-      //  frame.applyStyle();
-		letterpanel .setBackground(correspondancepanelcolor);
-		//letterpanel .applyStyle();
-		if (selcontact != null)
-		{
-			Vector<mcCorrespondance> letters = selcontact.getCorrespondance();
-
-			int row = 0;
-			for (mcCorrespondance anentry : letters)
-			{
-				mcCorrespondance aletter = anentry;
-				int letterid = aletter.getCorrespondanceid();
-
-				String date = aletter.getDate();
-				String status = aletter.getStatus();
-				String subject = aletter.getSubject();
-				if (letterid == editid)
-				{
-					jswButton saveedit = new jswButton(this, "SAVE",
-							"SAVEEDIT:" + letterid);
-					jswButton cancel = new jswButton(this, "CANCEL",
-							"CANCELEDIT:" + letterid);
-
-					dateeditbox = new jswTextBox(this,"date");
-					dateeditbox.setText(date);
-					statuseditbox = new jswDropDownBox(this,"status");
-					statuseditbox.setList(new String[] { "unknown", "draft",
-							"sent", "recieved" });
-					statuseditbox.setSelected(status);
-					statuseditbox.setEnabled(true);
-					subjecteditbox = new jswTextBox(this,"subject");
-					subjecteditbox.setText(subject);
-
-					letterpanel.addCell(dateeditbox, row, 0);
-					letterpanel.addCell(statuseditbox, row, 1);
-					letterpanel.addCell(subjecteditbox, row, 2);
-					letterpanel.addCell("  ", row, 3);
-					letterpanel.addCell("  ", row, 4);
-					letterpanel.addCell(saveedit, row, 5);
-					letterpanel.addCell(cancel, row, 6);
-
-					row++;
-
-				} else
-				{
-					jswButton editletter = new jswButton(this, "EDIT",
-							"EDITLETTER:" + letterid);
-					jswButton deleteref = new jswButton(this, "DELETE",
-							"DELETEREF:" + letterid);
-					jswButton viewletter = new jswButton(this, "VIEW",
-							"VIEWLETTER:" + letterid);
-					letterpanel.addCell(date, row, 0);
-					letterpanel.addCell(status, row, 1);
-					letterpanel.addCell(subject, row, 2);
-					letterpanel.addCell("  ", row, 3);
-					letterpanel.addCell(editletter, " MINWIDTH ", row, 4);
-					letterpanel.addCell(deleteref, row, 5);
-					letterpanel.addCell(viewletter, row, 6);
-					row++;
-				}
-			}
-		}
-		frame.setVisible(true);
-		return frame;
-	}
-
-	/*private mcContacts makeLinkedFromList(mcContact selcontact, String selector)
-	{
-		mcContacts list = new mcContacts();
-		if (selcontact != null)
-		{
-			mcAttributes getlinked = (new mcAttributes())
-					.FindByAttributeValue(selector, selcontact.getIDstr());
-			for (Entry<String, mcAttribute> anentry : getlinked.entrySet())
-			{
-				mcAttribute anattribute = anentry.getValue();
-				int cid = anattribute.getCid();
-				mcContact linkedcontact = mcdb.selbox.FindbyID(cid);
-				if (linkedcontact != null) list.put(linkedcontact);
-			}
-			return list;
-		} else
-		{
-			return null;
-		}
-	}*/
-
-/*	private jswVerticalPanel makeLinkedFromPanel(mcContact selcontact,
-			mcContacts list, String title)
-	{
-
-		jswVerticalPanel frame = new jswVerticalPanel("linkedfrom",false,false);
-		jswLabel memberheading = new jswLabel("+" + title);
-		frame.add(memberheading);
-
-		jswTable memberpanel = new jswTable(this,title, linktablestyles);
-
-		if (list != null)
-		{
-			int row = 0;
-			for (Entry<String, mcContact> acontactentry : list.getContactlist()
-					.entrySet())
-			{
-				mcContact acontact = acontactentry.getValue();
-
-				if (acontact != null)
-				{
-					String value = acontact.getTID();
-					jswLabel alabel = new jswLabel(value);
-					// memberpanel.addCell(alabel, row, 0);
-					memberpanel.addCell(acontact.getTID(), row, 0);
-					memberpanel.addCell(acontact.getIDstr(), row, 1);
-					memberpanel.addCell("", row, 2);
-					jswButton viewcontact = new jswButton(this, "VIEW",
-							"VIEW:" + acontact.getIDstr());
-					memberpanel.addCell(viewcontact, row, 3);
-
-					row++;
-				}
-
-			}
-			if (row == 0)
-			{
-				return null;
-			} else
-			{
-				frame.add(memberpanel);
-				return frame;
-			}
-		} else
-		{
-			return null;
-		}
-	}*/
-
-/*	private mcContacts xmakeLinkToList(mcContact selcontact, String selector)
-	{
-		mcContacts list = new mcContacts();
-		int row = 0;
-		if (selcontact != null)
-		{
-			Map<String, mcAttribute> attributes = selcontact.getAttributesbyRoot(selector);
-			if (attributes.size() < 1)
-			{ return null; }
-			for (Entry<String, mcAttribute> anentry : attributes.entrySet())
-			{
-				mcAttribute anattribute = anentry.getValue();
-				String value = anattribute.getValue();
-				mcContact linkedcontact = mcdb.selbox.FindbyIDstr(value);
-				if (linkedcontact != null)
-				{
-					list.put(linkedcontact);
-					row++;
-				}else {
-					System.out.println(" not found " + anattribute.toString());
-				}
-			}
-			if (row == 0)
-			{
-				return null;
-			} else
-			{
-				return list;
-			}
-		} else
-		{
-			return null;
-		}
-
-	}*/
 
 
 	private jswVerticalPanel makeLinkToPanel(mcAttributes contacts,String selector, String title)
@@ -843,8 +573,6 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 					letter.setVariable("salutation", salutation);
 					letter.setVariable("printdate", printdate);
 					letter.printLetter();
-					selcontact.addCorrespondance(lettername, filedate, "draft",
-							fileToSave);
 
 				} catch (Exception e)
 				{
@@ -854,50 +582,6 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 		} else
 		{
 			System.out.println("Open command cancelled by user.");
-		}
-	}
-
-	private void printNote(mcContact selcontact)
-	{
-		JFileChooser fc = new JFileChooser();
-		fc.setDialogTitle("Specify a file to save Note");
-		String lettername = mcLetter.makeFileName(selcontact);
-		String nfilepath = mcdb.docsfolder + "/" + selcontact.getCID() + "/"
-				+ lettername + ".odt";
-		File newfile = new File(nfilepath);
-		System.out.println(nfilepath + "=" + newfile.getPath());
-		fc.setSelectedFile(newfile);
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("ODT",
-				"odt");
-		fc.setFileFilter(filter);
-		fc.setCurrentDirectory(newfile);
-		int returnVal = fc.showSaveDialog(this);
-
-		if (returnVal == JFileChooser.APPROVE_OPTION)
-		{
-			File fileToSave = fc.getSelectedFile();
-			String filepath = fileToSave.getPath();
-			try
-			{
-				// String address = selcontact.makeBlockAddress("\n");
-				String salutation = selcontact.getName();
-				String printdate = mcDateDataType.getNow("dd MMM yyyy");
-				String filedate = mcDateDataType.getNow("yyyy-MM-dd");
-				mcLetter letter = new mcLetter();
-				letter.setOutputFileName(filepath);
-				letter.setTemplateFileName(
-						mcdb.topgui.dotcontacts + "/note_template.odt");
-
-				letter.setVariable("salutation", salutation);
-				letter.setVariable("printdate", printdate);
-				letter.printLetter();
-				selcontact.addCorrespondance(lettername, filedate, "note",
-						fileToSave);
-
-			} catch (Exception e)
-			{
-				e.printStackTrace();
-			}
 		}
 	}
 
@@ -982,72 +666,6 @@ public class browsePanel extends jswVerticalPanel implements ActionListener
 		col3style.putAttribute("minwidth", "true");
 		col3style.setHorizontalAlign("RIGHT");
 		
-		return tablestyles;
-	}
-
-	private jswStyles StylesMakeCorrespondence()
-	{
-		jswStyles tablestyles = jswStyles.clone("CorrespondanceStyles",mcdb.getTableStyles());
-
-		jswStyle tablestyle = tablestyles.makeStyle("table");
-
-		//tablestyle.putAttribute("backgroundColor", new Color(200,220,200));
-		tablestyle.putAttribute("foregroundColor", "Green");
-		tablestyle.putAttribute("borderWidth", "2");
-		tablestyle.putAttribute("borderColor", "blue");
-
-		jswStyle cellstyle = tablestyles.makeStyle("xcell");
-		cellstyle.putAttribute("backgroundColor", "#C0C0C0");
-		cellstyle.putAttribute("foregroundColor", "Blue");
-		cellstyle.putAttribute("borderWidth", "1");
-		cellstyle.putAttribute("borderColor", "white");
-		cellstyle.setHorizontalAlign("LEFT");
-		cellstyle.putAttribute("fontsize", "14");
-
-		jswStyle cellcstyle = tablestyles.makeStyle("xcellcontent");
-		cellcstyle.putAttribute("backgroundColor", "transparent");
-		cellcstyle.putAttribute("foregroundColor", "Red");
-		cellcstyle.setHorizontalAlign("LEFT");
-		cellcstyle.putAttribute("fontsize", "11");
-		
-		jswStyle rowstyle = tablestyles.makeStyle("row");
-		//col0style.putAttribute("fontStyle", Font.BOLD);
-		//col0style.setHorizontalAlign("RIGHT");
-		rowstyle.putAttribute("height", "50");
-
-		jswStyle col0style = tablestyles.makeStyle("col_0");
-		col0style.putAttribute("fontStyle", Font.BOLD);
-		col0style.setHorizontalAlign("RIGHT");
-		col0style.putAttribute("minwidth", "true");
-
-		jswStyle col1style = tablestyles.makeStyle("col_1");
-		col1style.putAttribute("fontStyle", Font.BOLD);
-		col1style.setHorizontalAlign("LEFT");
-		col1style.putAttribute("minwidth", "true");
-		col1style.putAttribute("width", "10");
-		col1style.putAttribute("horizontalAlignment", "LEFT");
-
-		jswStyle col2style = tablestyles.makeStyle("col_2");
-		// col2style.putAttribute("backgroundColor", "green");
-		col2style.putAttribute("horizontalAlignment", "LEFT");
-		col2style.putAttribute("minwidth", "true");
-		col2style.putAttribute("width", "10");
-
-		jswStyle col4style = tablestyles.makeStyle("col_4");
-		// col4style.putAttribute("backgroundColor", "green");
-		col4style.putAttribute("horizontalAlignment", "LEFT");
-		col4style.putAttribute("minwidth", "true");
-
-		jswStyle col5style = tablestyles.makeStyle("col_5");
-		// col5style.putAttribute("backgroundColor", "green");
-		col5style.putAttribute("horizontalAlignment", "LEFT");
-		col5style.putAttribute("minwidth", "true");
-
-		jswStyle col6style = tablestyles.makeStyle("col_6");
-		// col6style.putAttribute("backgroundColor", "green");
-		col6style.putAttribute("horizontalAlignment", "LEFT");
-		col6style.putAttribute("minwidth", "true");
-
 		return tablestyles;
 	}
 

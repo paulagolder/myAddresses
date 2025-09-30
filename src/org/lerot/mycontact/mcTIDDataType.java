@@ -92,7 +92,12 @@ public class mcTIDDataType extends mcDataType
 		return avalueic.compareTo(bvalueic);
 	}
 
-	
+    public static String toTidyStr(String value)
+    {
+        String tidytid = value.toString().replace("&", " ");
+        tidytid = tidytid.replace("  ", " ");
+        return tidytid;
+    }
 	
 
 }

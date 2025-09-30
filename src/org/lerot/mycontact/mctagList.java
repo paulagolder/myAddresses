@@ -155,9 +155,11 @@ public class mctagList extends mcDataObject
 		{
 			con =  datasource.getConnection();
 			st = con.prepareStatement(query);
-			st.setString(1,  todelete + ";");
+			st.setString(1,  todelete );
 			st.setString(2, attkey);
+
 			st.executeUpdate();
+
 			st.close();
 			datasource.disconnect();
 		} catch (SQLException e)

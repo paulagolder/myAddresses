@@ -494,8 +494,7 @@ public class mcdb extends JFrame implements ActionListener
                                 SimpleDateFormat sdf = new SimpleDateFormat(
                                         "YYYY-MM-dd");
                                 String date = sdf.format(source.lastModified());
-                                selcontact.addCorrespondance(source.getName(),
-                                        date, "gunge", dest);
+
 
                                 System.out.println("File copied from 509 "
                                         + source.getAbsolutePath() + " to "

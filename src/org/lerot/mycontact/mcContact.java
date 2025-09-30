@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
@@ -1216,49 +1217,7 @@ public class mcContact extends mcDataObject implements Comparable<mcContact>
         }
     }
 
-    public Vector<mcCorrespondance> getCorrespondance()
-    {
-        Vector<mcCorrespondance> letterlist = new Vector<mcCorrespondance>();
-        ArrayList<Map<String, String>> rowlist = doQuery(
-                "select * from correspondance where cid =" + getCID()
-                        + " order by date");
-        // System.out.println("letters found"+rowlist.size());
-        for (Map<String, String> row : rowlist)
-        {
-            mcCorrespondance aletter = new mcCorrespondance(0);
-            aletter.fill(row);
 
-            letterlist.add(aletter);
-        }
-        return letterlist;
-    }
-
-    public void addCorrespondance(String name, String date, String status,
-                                  File dest)
-    {
-        PreparedStatement st;
-        String query = "insert into correspondance(cid, date,path,status, subject )  values(?, ?,?,?,?)";
-        // System.out.println(" adding "+name+" "+dest.toString());
-        try
-        {
-            getConnection();
-            st = con.prepareStatement(query);
-            st.setInt(1, getCID());
-            st.setString(2, date);
-            st.setString(3, dest.getPath());
-            st.setString(4, status);
-            st.setString(5, name);
-            st.execute();
-            st.close();
-
-            disconnect();
-
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-    }
 
     public void deleteTag(String tag)
     {
@@ -1461,4 +1420,6 @@ public class mcContact extends mcDataObject implements Comparable<mcContact>
             return list;
 
     }
+
+
 }

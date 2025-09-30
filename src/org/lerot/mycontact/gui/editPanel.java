@@ -45,6 +45,7 @@ public class editPanel extends jswVerticalPanel implements ActionListener
     private String edattributename;
     private jswDropDownBox linkselect;
     private jswDropDownBox groupselect;
+    private int selectedtag=-1;
 
     public editPanel()
     {
@@ -117,10 +118,15 @@ public class editPanel extends jswVerticalPanel implements ActionListener
        // HashMap<String, String> cmdmap = jswUtils.parsecsvstring(cmd);
        // String action = cmdmap.get("command");
         String action= cmd;
-        if (action != null)
+        if (action != null && !action.isEmpty())
         {
             action = action.toUpperCase();
-            if (action.equals("IMPORTVCARD"))
+            if(action.startsWith("TAG:"))
+            {
+                int tagno = Integer.parseInt(action.substring(4));
+                selectedtag=tagno;
+            }
+            else if (action.equals("IMPORTVCARD"))
             {
                 mcImportContact imcontact = importVcard();
                 if (imcontact != null)
@@ -318,9 +324,10 @@ public class editPanel extends jswVerticalPanel implements ActionListener
                     if (atag != null)
                     {
                         String tag = atag.getTag();
-                        System.out.println(" TAG " + tag);
+
                         if (atag.isSelected())
                         {
+                            System.out.println(" TAG " + tag);
                             ataglist.add(tag);
                             k++;
                         }
@@ -362,7 +369,11 @@ public class editPanel extends jswVerticalPanel implements ActionListener
                 mcAttribute newatt = selcontact.createAttribute(newattlabel, "");
                 newatt.dbinsertAttribute();
             } else System.out.println("ep action1 " + action + " unrecognised ");
-        } else System.out.println("ep action1 " + " is null ");
+        } else
+        {
+            System.out.println("ep action1 " + " is null ");
+            System.out.println(evt.getSource().toString());
+        }
         makeEditPanel();
     }
 
@@ -1049,8 +1060,11 @@ public class editPanel extends jswVerticalPanel implements ActionListener
                             frow++;
                             for (String arow : attarry)
                             {
-                                tagcheckbox[frow] = new jswCheckbox(this, "");
+                              //  tagcheckbox[frow] = new jswCheckbox(this, "");
+
+                                tagcheckbox[frow] = new jswCheckbox(this, "", "tag:"+frow);
                                 tagcheckbox[frow].setTag(arow);
+                                if(selectedtag== frow)tagcheckbox[frow].setSelected(true);
                                 fieldlistbox.addCell(tagcheckbox[frow], " WIDTH=100 ", frow, 0);
                                 jswLabel keylabel = new jswLabel(arow);
                                 fieldlistbox.addCell(keylabel, frow, 1);
