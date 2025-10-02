@@ -50,7 +50,7 @@ public class mcdb extends JFrame implements ActionListener
     public static Map<String, Map<String, String>> labeltemplates = null;
     public static mcDataTypes alldatatypes;
     public static mcAttributeTypes myattributetypes;
-    public static String version = "40.0";
+    public static String version = "_20251002";
     private final Dimension defdimension;
     public mcDataSource currentcon;
     public browsePanel abrowsepanel;
