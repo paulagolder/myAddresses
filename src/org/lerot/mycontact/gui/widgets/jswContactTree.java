@@ -149,9 +149,9 @@ public class jswContactTree extends jswPanel implements TreeSelectionListener , 
         {
             Long t = System.currentTimeMillis() / 10000;
             int uniqueId = t.intValue();
-            Map<String,String> am = jswPanel.createActionMap(this, e);
-            am.put("jswTree",((org.lerot.mywidgets.jswTree)e.getSource()).getPanelname());
-            ActionEvent event = new ActionEvent(this, uniqueId, am.toString());
+          //  Map<String,String> am = jswPanel.createActionMap(this, e);
+         //   am.put("jswTree",((org.lerot.mywidgets.jswTree)e.getSource()).getPanelname());
+            ActionEvent event = new ActionEvent(this, uniqueId, e.getActionCommand());
             actionlistener.actionPerformed(event);
         }
 
