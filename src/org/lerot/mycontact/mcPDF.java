@@ -93,7 +93,8 @@ public class mcPDF
 				ostr += address;
 		} else
 		{
-			System.out.println(" no address for :" + acontact);
+            mcAttribute ab = acontact.getAddress();
+			System.out.println(" pdf no address for :" + acontact);
 			ostr = null;
 		}
 

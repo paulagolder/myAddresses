@@ -285,7 +285,7 @@ public class mcContact extends mcDataObject implements Comparable<mcContact>
             {
                 String orgtid = org.getValue();
                 mcContact orgcontact = mcdb.selbox.getAllcontactlist()
-                        .FindbyTID(orgtid);
+                        .FindbystrID(orgtid);
                 if (orgcontact != null)
                 {
                     anattribute = orgcontact.getAttributebyKey("address");
@@ -736,7 +736,7 @@ public class mcContact extends mcDataObject implements Comparable<mcContact>
                     .getBlockFormattedValue(address.getValue(), sep, showuk);
         } else
         {
-            System.out.println(" no address for :" + this);
+            System.out.println(" mcc no address for :" + this);
             // ostr = null;
         }
 
